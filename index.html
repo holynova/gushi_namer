@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>你的名字</title>
+    <meta charset="utf-8">
+    <!-- <meta name='viewport' content="with=device-width,initial-scale = 1,user-scalable=no"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="input-box">
+            <h3>你的名字<small> 古诗文起名V1.1</small></h3>
+            <p>
+                <label for='src-select'>来源
+                </label>
+                <select name='src-select'>
+                    <option value='json/shijing.json'>诗经</option>
+                    <option value='json/chuci.json'>楚辞</option>
+                    <option value='json/tangshi.json'>唐诗</option>
+                    <option value='json/songci.json'>宋词</option>
+                    <option value='json/yuefu.json'>乐府诗集</option>
+                    <option value='json/gushi.json'>古诗三百首</option>
+                    <option value='json/cifu.json'>辞赋</option>
+                </select>
+            </p>
+            <p>
+                <label for='family-name'>姓氏 </label>
+                <input type="text" name="family-name" value="李" placeholder="输入姓氏">
+            </p>
+            <!-- <input type="button" value="生成姓名" id='btn-go'> -->
+            <div id='btn-go'>起名</div>
+        </div>
+        <ul>
+            <li class='name-box'>
+            </li>
+        </ul>
+    </div>
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="namer.js"></script>
+</body>
+
+</html>

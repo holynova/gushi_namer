@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 12px;
+}
+
+body {
+    background-color: #f1f1f1;
+}
+
+.wrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.input-box {
+    width: 100%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .05), 0 1px 4px 0 rgba(0, 0, 0, .08), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    margin: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 2px;
+    font-size: 1.2rem;
+    /*text-align: center;*/
+}
+
+.input-box form {}
+
+ul {
+    list-style: none;
+    /*text-align: center;*/
+    /*vertical-align: center;*/
+}
+
+li.name-box {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .05), 0 1px 4px 0 rgba(0, 0, 0, .08), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    margin: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 2px;
+    /*width: %;*/
+    /*float: left;*/
+    display: inline-block;
+    width: 40%;
+    background-color: #7a7f80;
+    min-height: 200px;
+}
+
+li h3 {
+    font-size: 3rem;
+    color: #fff;
+    /*text-align: center;*/
+    font-weight: bold;
+    margin: 1rem;
+}
+
+li p:nth-of-type(1) {
+    text-align: left;
+    /*vertical-align: center;*/
+    color: #fff;
+}
+
+li p:nth-of-type(2) {
+    /*font-weight: bold;*/
+    text-align: right;
+    color: #2ec7bf;
+}
+
+li p {
+    padding: 0.618rem;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    /*color: #fff;*/
+    /*font-size: 2rem;*/
+}
+
+li p span {
+    color: #2ec7bf;
+}
