@@ -1,5 +1,6 @@
 // @import './normalize.scss';
-$my_grey :#9b9c9d;
+@import './responsive.scss';
+$my_grey :lighten(#9b9c9d, 10%);
 $my_green :lighten(#2ec7bf, 30%);
 html {
     box-sizing: border-box;
@@ -19,15 +20,43 @@ html {
         background-color: #D1D7DC;
         .wrapper {
             width: 60%;
+            @include phone {
+                width: 80%;
+            }
             max-width: 800px;
             margin: 0 auto;
             .input-container {
+                padding: 1rem;
                 .book-selector {
                     // display: flex;
+                    .inputGroup {
+                        flex: 1; // display: block;
+                    } // display: flex;
                     // input {
                     //     // display:   
                     //     // padding-right: 8px; // display: block;
                     // }
+                }
+                p.famliy {
+                    label {
+                        font-size: 2rem;
+                    }
+                }
+                button {
+                    width: 100%; // height: 20px;
+                    line-height: 3;
+                    background-color: darken($my_green, 20%);
+                    color: #fff;
+                    border-radius: 2px;
+                    padding: 0.2rem 1.1rem;
+                    border: none; // margin-left: 2rem;
+                    text-align: center; // width: 8rem; // margin-top: 0.2rem;
+                    margin: 0.2rem auto;
+                    outline: none;
+                    cursor: pointer;
+                    &:hover {
+                        background-color: darken($my_green, 15%);
+                    }
                 }
             }
             .result {
@@ -35,17 +64,35 @@ html {
                 .result-container {
                     list-style-type: none;
                     padding: 0;
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: space-between;
                     .name-box {
-                        margin: 1rem 0;
+                        // display: inline-block;
+                        box-sizing: border-box;
+                        min-height: 280px; // width: 48%;
+                        min-width: 320px;
+                        flex: 1;
+                        @include phone {
+                            width: 100%;
+                            min-height: 0;
+                            min-width: 90%;
+                        }
+                        margin: 1rem;
                         padding: 2rem 1rem;
                         background-color: $my_grey;
                         font-size: 1rem;
-                        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .05), 0 1px 4px 0 rgba(0, 0, 0, .08), 0 3px 1px -2px rgba(0, 0, 0, .2);
+                        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .05),
+                        0 1px 4px 0 rgba(0, 0, 0, .08),
+                        0 3px 1px -2px rgba(0, 0, 0, .2);
                         border-radius: 2px;
                         >h3 {
                             font-size: 3rem;
                             color: #fff;
                             text-align: center;
+                            line-height: 1.6;
+                            margin: 0;
                         }
                         .sentence {
                             color: #fff;
@@ -54,14 +101,18 @@ html {
                                 color: $my_green;
                             }
                         }
-                        .book {
-                            color: $my_green;
-                            display: inline-block;
-                            text-align: left;
-                        }
-                        .author {
-                            color: $my_green;
-                            display: inline-block;
+                        .source-row {
+                            display: flex; // justify-content: space-between;
+                            color: $my_green; // display: inline-block;
+                            .book,
+                            .author {
+                                flex: 1; // text-align: left;
+                            }
+                            .author {
+                                text-align: right;
+                            } // .author {
+                            //     // color: $my_green; // display: inline-block;
+                            // }
                         }
                         i {
                             color: $my_green;

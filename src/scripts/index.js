@@ -32,16 +32,21 @@ function genNameHtml(obj) {
     author,
     book,
     dynasty } = obj;
+
   const familyName = $('input[name="family-name"]').val();
   const sentenceHtml = sentence.replace(new RegExp(`[${name}]`, 'ig'), char => `<i>${char}</i>`);
   return `
     <li class='name-box'>
         <h3>${familyName}${name}</h3>
         <p class='sentence'>
-          <span>「</span>${sentenceHtml}<span>」</span>
+          <span>「</span>
+          ${sentenceHtml}
+          <span>」</span>
         </p>
-        <p class='book'>${book}•${title}</p>
-        <p class='author'>[${dynasty}]${author || '佚名'}</p>
+        <div class='source-row' >
+          <div class='book'>${book}&nbsp;•&nbsp;${title}</div>
+          <div class='author'>[${dynasty}]&nbsp;${author || '佚名'}</div>
+        </div>
       </li>`;
 }
 
@@ -93,6 +98,7 @@ function initEvents(namer) {
 
 
   sel('.btn-go').addEventListener('click', () => {
+    setLoading();
     const n = nameAmount;
     const html = [];
     for (let i = 0; i < n; i++) {
@@ -100,6 +106,7 @@ function initEvents(namer) {
       html.push(genNameHtml(nameObj));
     }
     $('.result-container').html(html.join(''));
+    clearLoading();
   }, false);
 }
 

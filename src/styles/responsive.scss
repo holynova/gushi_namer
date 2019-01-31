@@ -1,0 +1,87 @@
+$tablet_width: 768px;
+$desktop_width: 992px;
+$pc_width: 1366px;
+$pc_content_width:1206px;
+// mixin 使用方法 用include
+// @include desktop {
+//   font-size: $font_class1 - $font_step*1;
+// }
+//------------------------------------------
+@mixin phone {
+    @media (max-width: $tablet_width - 1px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: $tablet_width) and (max-width: $desktop_width - 1px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $desktop_width) and (max-width: $pc_width - 1px) {
+        @content;
+    }
+}
+
+@mixin pc {
+    @media (min-width: $pc_width) {
+        @content;
+    }
+}
+
+@mixin desktop_pc {
+    @media (min-width: $desktop_width) {
+        @content;
+    }
+}
+
+@mixin specialTablet {
+    @media (min-width: 820px) and (max-width:991px) {
+        @content;
+    }
+}
+// //在不同分辨率下显示或隐藏dom
+// @include desktop_pc {
+//     .response-tablet {
+//         display: none !important;
+//     }
+//     .response-phone {
+//         display: none !important;
+//     }
+//     .response-tablet-and-phone {
+//         display: none !important;
+//     }
+//     .response-desktop_pc-tablet {
+//         display: block !important;
+//     }
+// }
+// @include tablet {
+//     .response-desktop_pc {
+//         display: none !important;
+//     }
+//     .response-phone {
+//         display: none !important;
+//     }
+//     .response-tablet-and-phone {
+//         display: block !important;
+//     }
+//     .response-desktop_pc-tablet {
+//         display: block !important;
+//     }
+// }
+// @include phone {
+//     .response-desktop_pc {
+//         display: none !important;
+//     }
+//     .response-tablet {
+//         display: none !important;
+//     }
+//     .response-tablet-and-phone {
+//         display: block !important;
+//     }
+//     .response-desktop_pc-tablet {
+//         display: none !important;
+//     }
+// }
