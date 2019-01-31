@@ -24,24 +24,45 @@
     </div>
 
     <div class="result">
-      <ul class="result-container"></ul>
-      <div class="loader">
-        <svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-          y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
-          <circle fill="#fff" stroke="none" cx="6" cy="50" r="6">
-            <animateTransform attributeName="transform" dur="1s" type="translate" values="0 15 ; 0 -15; 0 15"
-              repeatCount="indefinite" begin="0.1" />
-          </circle>
-          <circle fill="#fff" stroke="none" cx="30" cy="50" r="6">
-            <animateTransform attributeName="transform" dur="1s" type="translate" values="0 10 ; 0 -10; 0 10"
-              repeatCount="indefinite" begin="0.2" />
-          </circle>
-          <circle fill="#fff" stroke="none" cx="54" cy="50" r="6">
-            <animateTransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5" repeatCount="indefinite"
-              begin="0.3" />
-          </circle>
-        </svg>
-      </div>
+      <ul class="result-container">
+        <!-- <li class="name-box">
+          <h3>李四斤</h3>
+          <p class="sentence">
+            <span>「</span>自彼成康，奄有<i>四</i>方，<i>斤</i><i>斤</i>其明。<span>」</span>
+          </p>
+          <p class="book">诗经•执竞</p>
+          <p class="author">[春秋]佚名</p>
+        </li> -->
+      </ul>
+
+    </div>
+    <div class="loader">
+      <svg version="1.1" id="L6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+        y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+        <rect fill="none" stroke="#2ec7bf" stroke-width="4" x="25" y="25" width="50" height="50">
+          <animateTransform attributeName="transform" dur="0.5s" from="0 50 50" to="180 50 50" type="rotate" id="strokeBox"
+            attributeType="XML" begin="rectBox.end" />
+        </rect>
+        <rect x="27" y="27" fill="#2ec7bf" width="46" height="50">
+          <animate attributeName="height" dur="1.3s" attributeType="XML" from="50" to="0" id="rectBox" fill="freeze"
+            begin="0s;strokeBox.end" />
+        </rect>
+      </svg>
+      <!-- <svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+        y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+        <circle fill="##2ec7bf" stroke="none" cx="6" cy="50" r="6">
+          <animateTransform attributeName="transform" dur="1s" type="translate" values="0 15 ; 0 -15; 0 15" repeatCount="indefinite"
+            begin="0.1" />
+        </circle>
+        <circle fill="##2ec7bf" stroke="none" cx="30" cy="50" r="6">
+          <animateTransform attributeName="transform" dur="1s" type="translate" values="0 10 ; 0 -10; 0 10" repeatCount="indefinite"
+            begin="0.2" />
+        </circle>
+        <circle fill="##2ec7bf" stroke="none" cx="54" cy="50" r="6">
+          <animateTransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5" repeatCount="indefinite"
+            begin="0.3" />
+        </circle>
+      </svg> -->
     </div>
     <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="
       crossorigin="anonymous">

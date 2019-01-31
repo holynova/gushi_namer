@@ -9,6 +9,8 @@ import { debugMode, defaultBook, defaultFamilyName, nameAmount } from './config'
 
 const sel = str => document.querySelector(str);
 
+let timer = null;
+
 function genRadio(books) {
   const arr = books.map(b => `
     <div class="inputGroup">
@@ -41,18 +43,21 @@ function genNameHtml(obj) {
         <p class='book'>${book}•${title}</p>
         <p class='author'>[${dynasty}]${author || '佚名'}</p>
       </li>`;
-
-  // const {
-
-  // }
 }
 
 function setLoading() {
-  $('.loader').css({
-    display: 'block',
-  });
+  const interval = 300;
+  timer = setTimeout(() => {
+    $('.loader').css({
+      display: 'block',
+    });
+  }, interval);
 }
 function clearLoading() {
+  clearTimeout(timer);
+  $('.loader').css({
+    display: 'none',
+  });
   // $('.loader').html('');
 }
 
@@ -66,6 +71,9 @@ function createRadioGroup() {
     { value: 'gushi', name: '古诗三百首' },
     { value: 'cifu', name: '辞赋' },
   ];
+  if (debugMode) {
+    books.push({ value: 'test', name: '测试', checked: true });
+  }
   sel('.book-selector').innerHTML = genRadio(books);
 }
 
@@ -103,7 +111,7 @@ function main() {
   loadBook(namer);
   // initFirstBook();
   initEvents(namer);
-  setLoading();
+  // setLoading();
 }
 
 
