@@ -18,7 +18,10 @@ html {
             .result {
                 position: relative;
                 .result-container {
-                    // position: absolute;
+                    i {
+                        color: red;
+                        font-style: normal;
+                    } // position: absolute;
                 }
                 .loader {
                     left: 0; // position: absolute;

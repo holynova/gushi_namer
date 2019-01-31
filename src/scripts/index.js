@@ -4,7 +4,7 @@ import '../styles/radio.scss';
 import '../styles/style.scss';
 import Namer from './namer';
 import { log } from './debugTools';
-import { debugMode } from './config'
+import { debugMode, defaultBook, defaultFamilyName, nameAmount } from './config'
   ;
 
 const sel = str => document.querySelector(str);
@@ -20,6 +20,9 @@ function genRadio(books) {
 }
 
 function genNameHtml(obj) {
+  if (!obj) {
+    return null;
+  }
   const {
     name,
     sentence,
@@ -28,11 +31,12 @@ function genNameHtml(obj) {
     book,
     dynasty } = obj;
   const familyName = $('input[name="family-name"]').val();
+  const sentenceHtml = sentence.replace(new RegExp(`[${name}]`, 'ig'), char => `<i>${char}</i>`);
   return `
     <li class='name-box'>
         <h3>${familyName}${name}</h3>
         <p class='sentence'>
-          <span>「</span>${sentence}<span>」</span>
+          <span>「</span>${sentenceHtml}<span>」</span>
         </p>
         <p class='book'>${book}•${title}</p>
         <p class='author'>[${dynasty}]${author || '佚名'}</p>
@@ -81,7 +85,7 @@ function initEvents(namer) {
 
 
   sel('.btn-go').addEventListener('click', () => {
-    const n = 10;
+    const n = nameAmount;
     const html = [];
     for (let i = 0; i < n; i++) {
       const nameObj = namer.genName();
@@ -91,9 +95,7 @@ function initEvents(namer) {
   }, false);
 }
 
-function initFirstBook(namer) {
 
-}
 function main() {
   const namer = new Namer();
   // namer.loadBook('shijing');
@@ -115,7 +117,7 @@ function test() {
     ' 记得年时临上马看人眼泪汪汪',
     '惜诵　　惜诵以致愍兮，发愤以抒情。　　所作忠而言之兮，指苍天以为正。　　令五帝使折中兮，戒六神与向服…望大河之洲渚兮，悲申徒之抗迹。　　骤谏君而不听兮，重任石之何益？　　心絓结而不解兮，思蹇产而不释。  ',
   ];
-  logStr(n.splitSentence(inputs[0]));
+  log(n.splitSentence(inputs[0]));
   logStr(n.formatStr(inputs[0]));
   logStr(n.formatStr(inputs[1]));
 }

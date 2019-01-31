@@ -19,6 +19,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "clean-webpack-plugin": "^0.1.17",
+    "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^0.28.7",
     "eslint": "^4.4.1",
     "eslint-config-airbnb-base": "^11.3.1",
