@@ -1,0 +1,39 @@
+html {
+    font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    body {
+        background-color: #D1D7DC;
+        .wrapper {
+            width: 60%;
+            max-width: 800px;
+            margin: 0 auto;
+            .input-container {
+                .book-selector {
+                    // display: flex;
+                    // input {
+                    //     // display:   
+                    //     // padding-right: 8px; // display: block;
+                    // }
+                }
+            }
+            .result {
+                position: relative;
+                .result-container {
+                    // position: absolute;
+                }
+                .loader {
+                    left: 0; // position: absolute;
+                    opacity: 0.5;
+                    width: 100%; // height: 100%; // height: 300px;
+                    background-color: #f60;
+                    svg {
+                        width: 100px;
+                        height: 100px;
+                        margin: 20px;
+                        display: block;
+                        margin: 20px auto;
+                    }
+                }
+            }
+        }
+    }
+}
