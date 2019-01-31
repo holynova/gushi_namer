@@ -1,7 +1,6 @@
 // @import './normalize.scss';
+@import './var.scss';
 @import './responsive.scss';
-$my_grey :lighten(#9b9c9d, 10%);
-$my_green :lighten(#2ec7bf, 30%);
 html {
     box-sizing: border-box;
     margin: 0;
@@ -17,7 +16,7 @@ html {
         margin: 0;
         padding: 0;
         position: relative;
-        background-color: #D1D7DC;
+        background-color: $color_bg;
         .wrapper {
             width: 60%;
             @include phone {
@@ -81,7 +80,7 @@ html {
                         }
                         margin: 1rem;
                         padding: 2rem 1rem;
-                        background-color: $my_grey;
+                        background-color: $color_card;
                         font-size: 1rem;
                         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .05),
                         0 1px 4px 0 rgba(0, 0, 0, .08),
@@ -96,14 +95,13 @@ html {
                         }
                         .sentence {
                             color: #fff;
-                            line-height: 1.5rem;
-                            span {
-                                color: $my_green;
-                            }
+                            line-height: 1.5rem; // span {
+                            //     color: $my_green;
+                            // }
                         }
                         .source-row {
                             display: flex; // justify-content: space-between;
-                            color: $my_green; // display: inline-block;
+                            color: $color_white; // display: inline-block;
                             .book,
                             .author {
                                 flex: 1; // text-align: left;
@@ -115,8 +113,11 @@ html {
                             // }
                         }
                         i {
-                            color: $my_green;
-                            font-style: normal;
+                            // color: #000;
+                            font-style: normal; // text-decoration: underline;
+                            padding: 0 2px;
+                            font-size: 1.2rem;
+                            font-weight: bold;
                         } // position: absolute;
                     }
                 }

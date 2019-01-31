@@ -1,5 +1,6 @@
+@import './var.scss';
 @import './responsive.scss';
-$my_green :lighten(#2ec7bf, 00%);
+// $my_green :lighten(#2ec7bf, 00%);
 .inputGroup {
     box-sizing: border-box;
     width: 45%;
@@ -62,8 +63,8 @@ $my_green :lighten(#2ec7bf, 00%);
             opacity: 1;
         }
         &:after {
-            background-color: #54E0C7;
-            border-color: #54E0C7;
+            background-color: darken($my_green, 30%);
+            border-color: darken($my_green, 30%);
         }
     }
     input {
