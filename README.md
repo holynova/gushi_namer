@@ -1,7 +1,7 @@
 # 你的名字-用诗经, 楚辞, 唐诗,宋词起名字
 
 ## demo
-- [点击查看demo](http://xiaosang.net/gushi_namer/)
+- [点击查看demo](http://xiaosang.net/gushi_namer/), 支持手机查看
 
 ## 支持的经典
 1. 诗经
