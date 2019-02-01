@@ -74,7 +74,7 @@ function createRadioGroup() {
     { value: 'songci', name: '宋词' },
     { value: 'yuefu', name: '乐府诗集' },
     { value: 'gushi', name: '古诗三百首' },
-    { value: 'cifu', name: '辞赋' },
+    { value: 'cifu', name: '著名辞赋' },
   ];
   if (debugMode) {
     books.push({ value: 'test', name: '测试', checked: true });
