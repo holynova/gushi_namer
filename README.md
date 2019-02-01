@@ -19,14 +19,14 @@
 ## 源码运行方法
 - 方法1: 直接点击`dist`目录中压缩好的html文件
 - 方法2: 源代码运行
-  ```
-  git clone https://github.com/holynova/gushi_namer.git
-  npm install
-  
-  # 本地调试
-  npm start
-  
-  # 编译
-  npm run build
-  
-  ```
+```
+git clone https://github.com/holynova/gushi_namer.git
+npm install
+
+# 本地调试
+npm start
+
+# 编译
+npm run build
+
+```
