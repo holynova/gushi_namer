@@ -20,9 +20,9 @@ module.exports = {
       `${dir.js}/index.js`,
     ],
   },
-  externals: {
-    jquery: 'jQuery',
-  },
+  // externals: {
+  //   jquery: 'jQuery',
+  // },
   plugins: [
     new CopyWebpackPlugin([{
       from: `${dir.js}/json`,

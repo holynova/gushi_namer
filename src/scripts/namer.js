@@ -1,4 +1,4 @@
-// import $ from 'jquery';
+import $ from 'jquery';
 import { log } from './debugTools';
 import rand from './rand';
 import { debugMode } from './config'
