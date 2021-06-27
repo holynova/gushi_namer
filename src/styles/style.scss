@@ -22,7 +22,7 @@ html {
             @include phone {
                 width: 80%;
             }
-            max-width: 800px;
+            max-width: 1700px;
             margin: 0 auto;
             .input-container {
                 padding: 1rem;
@@ -70,8 +70,8 @@ html {
                     .name-box {
                         // display: inline-block;
                         box-sizing: border-box;
-                        min-height: 280px; // width: 48%;
-                        min-width: 320px;
+                        min-height: 200px; // width: 48%;
+                        min-width: 300px;
                         flex: 1;
                         @include phone {
                             width: 100%;
