@@ -70,7 +70,7 @@ html {
                     .name-box {
                         // display: inline-block;
                         box-sizing: border-box;
-                        min-height: 280px; // width: 48%;
+                        min-height: 200px; // width: 48%;
                         min-width: 320px;
                         flex: 1;
                         @include phone {
