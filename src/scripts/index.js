@@ -4,8 +4,8 @@ import '../styles/radio.scss';
 import '../styles/style.scss';
 import Namer from './namer';
 import { log } from './debugTools';
-import { debugMode, defaultBook, defaultFamilyName, nameAmount } from './config'
-  ;
+import { debugMode, defaultBook, defaultFamilyName, nameAmount } from './config';
+import { pinyin } from 'pinyin-pro';
 
 const sel = str => document.querySelector(str);
 
@@ -35,6 +35,11 @@ function genNameHtml(obj) {
 
   const familyName = $('input[name="family-name"]').val();
   const sentenceHtml = sentence.replace(new RegExp(`[${name}]`, 'ig'), char => `<i>${char}</i>`);
+  const fullname_yindiao = pinyin(familyName+name, { pattern: 'num'});
+  if(getBestTemperament(fullname_yindiao) == -1){
+	  console.log(familyName+name,"不符合平仄音律标准，已剔除")
+     return null;
+  }
   return `
     <li class='name-box'>
         <h3>${familyName}${name}</h3>
@@ -48,6 +53,16 @@ function genNameHtml(obj) {
           <div class='author'>[${dynasty}]&nbsp;${author || '佚名'}</div>
         </div>
       </li>`;
+}
+
+function getBestTemperament(obj) {
+	// 最佳组合就是：平仄平，平平仄，仄平平；其次是：仄仄平；平仄仄
+	const array_list = ["1 3 1", "2 3 1", "1 4 1", "2 4 1", "1 3 2", "2 3 2", "1 4 2", "2 4 2", 
+	"1 1 3", "2 1 3", "1 2 3","2 2 3", "1 2 4", "2 2 4", "1 1 4", "2 1 4", 
+	"3 1 1", "4 1 1", "3 2 1", "4 2 1", "3 2 2", "4 2 2", "3 1 2", "4 1 2", 
+	 "3 3 1", "3 3 2", "3 4 1", "3 4 2", "4 3 2", "4 3 1", "4 4 1", "4 4 2",
+	"1 3 3", "1 3 4", "1 4 3", "1 4 4", "2 3 3", "2 3 4", "2 4 3", "2 4 4"];
+  return array_list.indexOf(obj);
 }
 
 function setLoading() {
@@ -103,7 +118,11 @@ function initEvents(namer) {
     const html = [];
     for (let i = 0; i < n; i++) {
       const nameObj = namer.genName();
-      html.push(genNameHtml(nameObj));
+	  console.log(nameObj);
+	  const pushname = genNameHtml(nameObj);
+	  if(pushname!= null){
+		html.push(pushname);
+	  }
     }
     $('.result-container').html(html.join(''));
     clearLoading();
