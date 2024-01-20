@@ -73,7 +73,7 @@ class Namer {
 
       // log({ content, sentence });
       // const charList = this.cleanBadChar(cleanSentence);
-      const name = this.getTwoChar(cleanSentence.split(''));
+      const name = this.getOneChar(cleanSentence.split(''));
       const res = {
         name,
         sentence,
@@ -89,6 +89,11 @@ class Namer {
     }
     // log(res);
     // log('passage', passage);
+  }
+
+  getOneChar(arr) {
+    const len = arr.length;
+    return `${arr[rand.between(0, len)]}`
   }
 
   getTwoChar(arr) {

@@ -2,3 +2,5 @@ node_modules
 # dist
 # dest
 .DS_Store
+dist/
+.idea/
