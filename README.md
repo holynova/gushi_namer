@@ -68,3 +68,8 @@ npm start
 npm run build
 
 ```
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=holynova/gushi_namer&type=Date)](https://www.star-history.com/#holynova/gushi_namer&Date)
