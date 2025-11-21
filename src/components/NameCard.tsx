@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { GeneratedName } from '../utils/namer';
+import { Heart } from 'lucide-react';
 
 interface NameCardProps {
   data: GeneratedName;
   familyName: string;
+  onFavorite?: () => void;
+  isFavorited?: boolean;
 }
 
-export const NameCard: React.FC<NameCardProps> = ({ data, familyName }) => {
+export const NameCard: React.FC<NameCardProps> = ({ data, familyName, onFavorite, isFavorited = false }) => {
   const { name, sentence, book, title, author, dynasty } = data;
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleFavoriteClick = () => {
+    if (onFavorite) {
+      onFavorite();
+      // Trigger animation
+      setIsAnimating(true);
+      setTimeout(() => setIsAnimating(false), 600);
+    }
+  };
 
   // Highlight the characters in the sentence
   const highlightSentence = () => {
@@ -40,9 +53,26 @@ export const NameCard: React.FC<NameCardProps> = ({ data, familyName }) => {
   };
 
   return (
-    <div className="bg-matsu-card rounded-xl p-6 shadow-lg border border-matsu-border hover:border-matsu-primary transition-all duration-300 flex flex-col justify-between h-full group">
+    <div className={`bg-matsu-card rounded-xl p-6 shadow-lg border border-matsu-border hover:border-matsu-primary transition-all duration-300 flex flex-col justify-between h-full group relative ${
+      isAnimating ? 'animate-pulse-scale' : ''
+    }`}>
+      {onFavorite && (
+        <button
+          onClick={handleFavoriteClick}
+          className="absolute top-3 right-3 p-2 rounded-full hover:bg-matsu-primary/10 transition-colors"
+          aria-label="我的收藏"
+        >
+          <Heart
+            className={`w-5 h-5 transition-all duration-300 ${
+              isFavorited
+                ? 'fill-matsu-primary text-matsu-primary scale-110'
+                : 'text-matsu-border hover:text-matsu-primary'
+            }`}
+          />
+        </button>
+      )}
       <div className="text-center mb-4">
-        <h3 className="text-4xl font-serif font-bold text-matsu-text mb-2 group-hover:text-matsu-primary transition-colors">
+        <h3 className="text-4xl font-serif font-bold text-matsu-text mb-2 transition-colors">
           {familyName}{name}
         </h3>
       </div>
