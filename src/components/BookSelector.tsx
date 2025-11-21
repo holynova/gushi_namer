@@ -30,8 +30,8 @@ export const BookSelector: React.FC<BookSelectorProps> = ({
           className={clsx(
             'cursor-pointer px-3 py-1.5 rounded-full border text-sm transition-all duration-200',
             selectedBook === book.id
-              ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg shadow-emerald-900/50'
-              : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-600',
+              ? 'bg-matsu-primary border-matsu-primary text-white shadow-md'
+              : 'bg-transparent border-matsu-border text-matsu-text hover:bg-matsu-primary/10 hover:border-matsu-primary',
             disabled && 'opacity-50 cursor-not-allowed'
           )}
         >

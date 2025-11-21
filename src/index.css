@@ -4,6 +4,6 @@
 
 @layer base {
   body {
-    @apply bg-slate-900 text-slate-100;
+    @apply bg-matsu-bg text-matsu-text font-serif;
   }
 }
