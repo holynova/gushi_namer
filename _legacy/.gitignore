@@ -1,0 +1,4 @@
+node_modules
+# dist
+# dest
+.DS_Store
