@@ -1,76 +1,73 @@
-# 你的名字-用诗经, 楚辞, 唐诗,宋词起名字
+# React + TypeScript + Vite
 
-## slogan
-翻阅经典, 与一个好名字不期而遇
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## demo
-- [点击查看demo](http://xiaosang.net/gushi_namer/), 支持手机查看
+Currently, two official plugins are available:
 
-## 支持的经典
-1. 诗经
-1. 楚辞
-1. 唐诗
-1. 宋词
-1. 乐府诗集
-1. 古诗三百首
-1. 著名辞赋
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 作者的话
-我是作者holy_nova, 这个5年前的项目, 最近获得了颇多关注, 感谢大家的star.
+## React Compiler
 
-这个项目出发点, 是基于这样一个简单的理念: **词库好, 名字就好, 即使是随机取的**.  
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-> 我叫周星驰, 取自滕王阁序"雄州雾列, 俊采星驰". 
+## Expanding the ESLint configuration
 
-这是我这个项目期望达到的效果. 
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-常说"男诗经, 女楚辞", 我爬取了中华传统经典的唐诗宋词等, 作为孕育好名字的优秀文本.
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-这个项目没有任何人工智能, 没有判断名字价值的目标函数(5年前做这个项目时候, 人工智能还不像现在这么火). 
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-既然是随机, 就有可能带来一些智障, 搞笑的名字, 反过来惊艳, 惊鸿一瞥的名字也在随机中孕育
-
-让这个程序帮你翻阅经典, 与一个好名字不期而遇
-
-2021年09月04日
-
-## QA
-1. 为什么会有很多搞笑的名字? 
-> 因为是随机生成的, 自由组合
-2. 为什么会有脏字?
-> 我已经加了一些脏字的简单过滤, 但试验下来, 发现古诗文里面脏字实在太多, 人工是过滤不完的.有兴许的源码里面搜索"狗", 找到敏感词列表, 自己扩展
-3. 为什么只有2个字的名字, 能否更改字数? 
-> 这是一个简单的参数问题, 改起来很简单. 我这里采取了2个字名字, 因为1个字的话, 跟诗文没有什么关系, 这个字可以取自任何地方. "三分诗, 七分读", 3个字的话, 人们很难读出韵味来.
-4. 能否增加生成名字的数量?
-> 又是一个简单的参数问题. 我限制了数量, 希望你能放慢脚步, 仔细的读生成出来的每个名字, 好名字是琢磨出来的. 如果一下子生成100个, 其实很难有耐心仔细的读他们.
-> 当然, 非要增加数量的话, 你可以多点几次生成, 就可以无限刷. 小技巧: 电脑上按回车就能再出6个名字
-5. 词库哪里来的?
-> 当年我用scrapy爬的古诗文网, 做成了json
-
-
-
-
-## 开源
-- [开源项目地址](https://github.com/holynova/gushi_namer), 欢迎star和fork
-- 作者: [holynova](https://github.com/holynova)
-
-## 源码运行方法
-- 方法1: 直接点击`dist`目录中压缩好的html文件
-- 方法2: 源代码运行
-```
-git clone https://github.com/holynova/gushi_namer.git
-npm install
-
-# 本地调试
-npm start
-
-# 编译
-npm run build
-
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=holynova/gushi_namer&type=Date)](https://www.star-history.com/#holynova/gushi_namer&Date)
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
