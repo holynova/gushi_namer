@@ -23,12 +23,12 @@ export const BookSelector: React.FC<BookSelectorProps> = ({
   disabled,
 }) => {
   return (
-    <div className="flex flex-wrap gap-4 justify-center my-6">
+    <div className="flex flex-wrap gap-2 justify-center my-2">
       {books.map((book) => (
         <label
           key={book.id}
           className={clsx(
-            'cursor-pointer px-4 py-2 rounded-full border transition-all duration-200',
+            'cursor-pointer px-3 py-1.5 rounded-full border text-sm transition-all duration-200',
             selectedBook === book.id
               ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg shadow-emerald-900/50'
               : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-600',

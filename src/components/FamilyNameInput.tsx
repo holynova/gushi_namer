@@ -10,7 +10,7 @@ export const FamilyNameInput: React.FC<FamilyNameInputProps> = ({
   onChange,
 }) => {
   return (
-    <div className="flex flex-col items-center gap-2 my-6">
+    <div className="flex flex-col items-center gap-2 my-2">
       <label htmlFor="familyName" className="text-slate-400 text-sm">
         输入姓氏
       </label>
