@@ -29,7 +29,7 @@ export const NameCard: React.FC<NameCardProps> = ({ data, familyName }) => {
           return (
             <span
               key={i}
-              className={isNameChar ? 'text-emerald-400 font-bold' : ''}
+              className={isNameChar ? 'text-matsu-primary font-bold' : ''}
             >
               {char}
             </span>
@@ -40,21 +40,21 @@ export const NameCard: React.FC<NameCardProps> = ({ data, familyName }) => {
   };
 
   return (
-    <div className="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between h-full group">
+    <div className="bg-matsu-card rounded-xl p-6 shadow-lg border border-matsu-border hover:border-matsu-primary transition-all duration-300 flex flex-col justify-between h-full group">
       <div className="text-center mb-4">
-        <h3 className="text-4xl font-serif font-bold text-slate-100 mb-2 group-hover:text-emerald-400 transition-colors">
+        <h3 className="text-4xl font-serif font-bold text-matsu-text mb-2 group-hover:text-matsu-primary transition-colors">
           {familyName}{name}
         </h3>
       </div>
       
       <div className="text-center space-y-3">
-        <p className="text-slate-300 text-lg font-serif leading-relaxed">
+        <p className="text-matsu-text text-lg font-serif leading-relaxed">
           「{highlightSentence()}」
         </p>
         
-        <div className="text-xs text-slate-500 border-t border-slate-700 pt-3 mt-2">
+        <div className="text-xs text-matsu-text/60 border-t border-matsu-border pt-3 mt-2">
           <p className="mb-1">
-            <span className="text-emerald-600/80">[{dynasty}]</span> {author}
+            <span className="text-matsu-primary/80">[{dynasty}]</span> {author}
           </p>
           <p>
             《{title}》 • {book}
