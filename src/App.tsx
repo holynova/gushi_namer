@@ -7,9 +7,8 @@ import { Sparkles } from 'lucide-react';
 
 function App() {
   const [selectedBook, setSelectedBook] = useState<string>('shijing');
-  const [familyName, setFamilyName] = useState<string>('李');
+  const [familyName, setFamilyName] = useState<string>('苏');
   const [generatedNames, setGeneratedNames] = useState<GeneratedName[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
   const [initializing, setInitializing] = useState<boolean>(true);
   
   const namerRef = useRef<Namer>(new Namer());
@@ -23,12 +22,8 @@ function App() {
     loadInitialBook();
   }, [selectedBook]);
 
-  const handleGenerate = async () => {
+  const handleGenerate = () => {
     if (initializing) return;
-    
-    setLoading(true);
-    // Simulate a small delay for better UX
-    await new Promise(resolve => setTimeout(resolve, 300));
     
     const names: GeneratedName[] = [];
     for (let i = 0; i < 6; i++) {
@@ -38,7 +33,6 @@ function App() {
       }
     }
     setGeneratedNames(names);
-    setLoading(false);
   };
 
   return (
@@ -60,7 +54,7 @@ function App() {
               <BookSelector 
                 selectedBook={selectedBook} 
                 onSelect={setSelectedBook} 
-                disabled={initializing || loading}
+                disabled={initializing}
               />
               
               <div className="flex items-end gap-4">
@@ -71,11 +65,11 @@ function App() {
                 
                 <button
                   onClick={handleGenerate}
-                  disabled={initializing || loading}
+                  disabled={initializing}
                   className="mb-2 px-6 py-2 bg-matsu-primary hover:bg-matsu-primaryHover text-white rounded-full font-bold text-base shadow-md transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2 h-[42px] w-[120px]"
                 >
-                  {initializing ? '加载中...' : loading ? '生成中...' : '起名'}
-                  {!initializing && !loading && <Sparkles className="w-4 h-4" />}
+                  {initializing ? '加载中...' : '起名'}
+                  {!initializing && <Sparkles className="w-4 h-4" />}
                 </button>
               </div>
             </div>
