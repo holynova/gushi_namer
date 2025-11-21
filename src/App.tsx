@@ -174,6 +174,14 @@ function App() {
               github地址 https://github.com/holynova/gushi_namer
             </a>
           </div>
+          <div className="flex items-center justify-center gap-2 pt-2">
+            <span className="text-matsu-text/40">访问量:</span>
+            <img 
+              src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fholynova.github.io%2Fgushi_namer&count_bg=%238B9D5E&title_bg=%23E6D5B8&icon=&icon_color=%23E7E7E7&title=访问&edge_flat=false"
+              alt="访问统计"
+              className="inline-block"
+            />
+          </div>
           <div className="pt-2">
             <button
               onClick={() => setPage('about')}
