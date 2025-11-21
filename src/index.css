@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-matsu-bg text-matsu-text font-serif;
-  }
+body {
+  background-color: #E6D5B8;
+  color: #4A3B2A;
+  font-family: "Noto Serif SC", serif;
 }

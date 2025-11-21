@@ -11,16 +11,16 @@ export const FamilyNameInput: React.FC<FamilyNameInputProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center gap-2 my-2">
-      <label htmlFor="familyName" className="text-slate-400 text-sm">
+      {/* <label htmlFor="familyName" className="text-slate-400 text-sm">
         输入姓氏
-      </label>
+      </label> */}
       <input
         id="familyName"
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="bg-transparent border border-matsu-border rounded-lg px-4 py-2 text-center text-xl text-matsu-text placeholder-matsu-text/50 focus:outline-none focus:border-matsu-primary focus:ring-1 focus:ring-matsu-primary transition-all w-32"
-        placeholder="李"
+        placeholder="输入姓氏"
         maxLength={2}
       />
     </div>
