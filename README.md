@@ -4,7 +4,16 @@
 翻阅经典, 与一个好名字不期而遇
 
 ## demo
-- [点击查看demo](http://xiaosang.net/gushi_namer/), 支持手机查看
+- [http://xiaosang.net/gushi_namer/](http://xiaosang.net/gushi_namer/), 支持手机查看
+- [https://holynova.github.io/gushi_namer/](https://holynova.github.io/gushi_namer/), 支持手机查看
+
+## 截图预览
+
+### 主界面
+![主界面](main.png)
+
+### 收藏功能
+![收藏功能](bookmark.png)
 
 ## 支持的经典
 1. 诗经
