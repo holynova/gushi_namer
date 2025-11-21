@@ -3,13 +3,14 @@ import { BookSelector } from './components/BookSelector';
 import { FamilyNameInput } from './components/FamilyNameInput';
 import { NameCard } from './components/NameCard';
 import { FavoritesPage } from './components/FavoritesPage';
+import { AboutPage } from './components/AboutPage';
 import { Namer, type GeneratedName } from './utils/namer';
 import { toggleFavorite, isFavorite } from './utils/favorites';
 import { Sparkles, Heart } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 function App() {
-  const [page, setPage] = useState<'main' | 'favorites'>('main');
+  const [page, setPage] = useState<'main' | 'favorites' | 'about'>('main');
   const [selectedBook, setSelectedBook] = useState<string>('shijing');
   const [familyName, setFamilyName] = useState<string>('苏');
   const [generatedNames, setGeneratedNames] = useState<GeneratedName[]>([]);
@@ -61,6 +62,10 @@ function App() {
 
   if (page === 'favorites') {
     return <FavoritesPage onBack={() => setPage('main')} />;
+  }
+
+  if (page === 'about') {
+    return <AboutPage onBack={() => setPage('main')} />;
   }
 
   return (
@@ -150,6 +155,14 @@ function App() {
             >
               github地址 https://github.com/holynova/gushi_namer
             </a>
+          </div>
+          <div className="pt-2">
+            <button
+              onClick={() => setPage('about')}
+              className="text-matsu-primary hover:text-matsu-primaryHover transition-colors underline"
+            >
+              关于本项目
+            </button>
           </div>
         </footer>
       </div>
