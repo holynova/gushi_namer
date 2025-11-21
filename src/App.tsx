@@ -136,10 +136,20 @@ function App() {
               rel="noopener noreferrer"
               className="text-matsu-primary hover:text-matsu-primaryHover transition-colors"
             >
-              开源项目地址
+              本项目完全开源
             </a>
             <span>•</span>
             <span>作者: holynova</span>
+          </div>
+          <div className="flex items-center justify-center gap-4">
+            <a 
+              href="https://github.com/holynova/gushi_namer" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-matsu-primary hover:text-matsu-primaryHover transition-colors"
+            >
+              github地址 https://github.com/holynova/gushi_namer
+            </a>
           </div>
         </footer>
       </div>
