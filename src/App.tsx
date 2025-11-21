@@ -16,6 +16,7 @@ function App() {
   const [generatedNames, setGeneratedNames] = useState<GeneratedName[]>([]);
   const [initializing, setInitializing] = useState<boolean>(true);
   const [isFirstGeneration, setIsFirstGeneration] = useState<boolean>(true);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   
   const namerRef = useRef<Namer>(new Namer());
 
@@ -28,16 +29,31 @@ function App() {
     loadInitialBook();
   }, [selectedBook]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleGenerate = () => {
     if (initializing) return;
+    const MAX_NAME = 6;
+    const MAX_ATTEMPTS = 100;
     
     const names: GeneratedName[] = [];
-    for (let i = 0; i < 6; i++) {
+    let attempts = 0;
+    
+    while (names.length < MAX_NAME && attempts < MAX_ATTEMPTS) {
       const name = namerRef.current.genName();
       if (name) {
         names.push(name);
       }
+      attempts++;
     }
+    
     setGeneratedNames(names);
     
     // Trigger confetti on first generation
@@ -69,10 +85,12 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-matsu-bg text-matsu-text py-6 px-4 font-serif selection:bg-matsu-primary/30">
+    <div className="min-h-screen bg-matsu-bg text-matsu-text font-serif selection:bg-matsu-primary/30">
       <div className="max-w-4xl mx-auto">
-        <header className="mb-6">
-          <div className="flex items-center justify-between mb-4">
+        <header className={`sticky top-0 z-50 bg-matsu-bg/95 backdrop-blur-sm py-4 px-4 mb-6 transition-all duration-300 ${
+          isScrolled ? 'border-b border-matsu-border' : ''
+        }`}>
+          <div className="flex items-center justify-between mb-2">
             <h1 className="text-3xl md:text-4xl font-bold text-matsu-primary tracking-tight flex items-center gap-2">
               <Sparkles className="w-6 h-6" />
               古诗文起名
@@ -90,7 +108,7 @@ function App() {
           </p>
         </header>
 
-        <main className="space-y-6">
+        <main className="space-y-6 px-4 pb-6">
           <section className="bg-matsu-card/50 rounded-2xl p-4 md:p-6 border border-matsu-border backdrop-blur-sm">
             <div className="flex flex-col items-center">
               <BookSelector 

@@ -9,9 +9,19 @@ interface FavoritesPageProps {
 
 export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   useEffect(() => {
     loadFavorites();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const loadFavorites = () => {
@@ -24,9 +34,11 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="min-h-screen bg-matsu-bg text-matsu-text py-6 px-4 font-serif">
+    <div className="min-h-screen bg-matsu-bg text-matsu-text font-serif">
       <div className="max-w-4xl mx-auto">
-        <header className="mb-6">
+        <header className={`sticky top-0 z-50 bg-matsu-bg/95 backdrop-blur-sm py-4 px-4 mb-6 transition-all duration-300 ${
+          isScrolled ? 'border-b border-matsu-border' : ''
+        }`}>
           <button
             onClick={onBack}
             className="flex items-center gap-2 text-matsu-primary hover:text-matsu-primaryHover transition-colors mb-4"
@@ -44,7 +56,7 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
         </header>
 
         {favorites.length === 0 ? (
-          <div className="text-center py-20">
+          <div className="text-center py-20 px-4">
             <Heart className="w-16 h-16 text-matsu-border mx-auto mb-4" />
             <p className="text-matsu-text/60 text-lg">还没有收藏任何名字</p>
             <p className="text-matsu-text/40 text-sm mt-2">
@@ -52,7 +64,7 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 pb-6">
             {favorites.map((favorite) => (
               <div key={favorite.id} className="relative">
                 <NameCard

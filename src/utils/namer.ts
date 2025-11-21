@@ -78,10 +78,11 @@ export class Namer {
     const first = between(0, len);
     let second = between(0, len);
     let cnt = 0;
+    const MAX_RETRY = 1000;
     while (second === first) {
       second = between(0, len);
       cnt++;
-      if (cnt > 100) {
+      if (cnt > MAX_RETRY) {
         break;
       }
     }

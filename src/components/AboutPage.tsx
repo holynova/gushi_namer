@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, HelpCircle, Heart } from 'lucide-react';
 
 interface AboutPageProps {
@@ -6,10 +6,23 @@ interface AboutPageProps {
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-matsu-bg text-matsu-text py-6 px-4 font-serif">
+    <div className="min-h-screen bg-matsu-bg text-matsu-text font-serif">
       <div className="max-w-4xl mx-auto">
-        <header className="mb-8">
+        <header className={`sticky top-0 z-50 bg-matsu-bg/95 backdrop-blur-sm py-4 px-4 mb-8 transition-all duration-300 ${
+          isScrolled ? 'border-b border-matsu-border' : ''
+        }`}>
           <button
             onClick={onBack}
             className="flex items-center gap-2 text-matsu-primary hover:text-matsu-primaryHover transition-colors mb-4"
@@ -23,7 +36,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
           </h1>
         </header>
 
-        <main className="space-y-8">
+        <main className="space-y-8 px-4 pb-6">
           {/* 作者的话 */}
           <section className="bg-matsu-card/50 rounded-2xl p-6 md:p-8 border border-matsu-border">
             <h2 className="text-2xl font-bold text-matsu-primary mb-4 flex items-center gap-2">
