@@ -93,11 +93,25 @@ function App() {
     }
 
     const key = `${familyName}${name.name}`;
+    const currentState = favoriteStates[key] || false;
+    const newState = !currentState;
+    
+    // 🚀 乐观更新：立即更新 UI
+    setFavoriteStates({ ...favoriteStates, [key]: newState });
+    
     try {
+      // 后台异步更新数据库
       const isFavorited = await toggleFavorite(name, familyName);
-      setFavoriteStates({ ...favoriteStates, [key]: isFavorited });
+      
+      // 如果后台返回的状态与预期不符，更新为正确状态
+      if (isFavorited !== newState) {
+        setFavoriteStates({ ...favoriteStates, [key]: isFavorited });
+      }
+      
       showToast(isFavorited ? '收藏成功' : '已取消收藏');
     } catch (error: any) {
+      // ❌ 失败时回滚 UI 状态
+      setFavoriteStates({ ...favoriteStates, [key]: currentState });
       showToast(error.message || '操作失败，请重试', 'error');
     }
   };
