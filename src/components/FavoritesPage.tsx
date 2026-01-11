@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Trash2, ArrowLeft } from 'lucide-react';
+import { Heart, Trash2, ArrowLeft, AlertCircle } from 'lucide-react';
 import { getFavorites, removeFavorite, type FavoriteItem } from '../utils/favorites';
 import { NameCard } from './NameCard';
+import { useAuth } from '../contexts/AuthContext';
 
 interface FavoritesPageProps {
   onBack: () => void;
 }
 
 export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
+  const { user } = useAuth();
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     loadFavorites();
@@ -24,14 +28,48 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const loadFavorites = () => {
-    setFavorites(getFavorites());
+  const loadFavorites = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const data = await getFavorites();
+      setFavorites(data);
+    } catch (err) {
+      setError('加载收藏失败，请重试');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleRemove = (id: string) => {
-    removeFavorite(id);
-    loadFavorites();
+  const handleRemove = async (id: string) => {
+    try {
+      await removeFavorite(id);
+      await loadFavorites();
+    } catch (err) {
+      setError('删除收藏失败，请重试');
+      console.error(err);
+    }
   };
+
+  // 如果未登录，显示提示
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-matsu-bg text-matsu-text font-serif flex items-center justify-center">
+        <div className="text-center">
+          <Heart className="w-16 h-16 text-matsu-border mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-matsu-primary mb-2">请先登录</h2>
+          <p className="text-matsu-text/60 mb-6">登录后即可查看您的收藏</p>
+          <button
+            onClick={onBack}
+            className="px-6 py-2 bg-matsu-primary hover:bg-matsu-primaryHover text-white rounded-full transition-colors"
+          >
+            返回首页
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-matsu-bg text-matsu-text font-serif">
@@ -55,7 +93,27 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
           </p>
         </header>
 
-        {favorites.length === 0 ? (
+        {error && (
+          <div className="mx-4 mb-6 bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
+            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-red-800 text-sm">{error}</p>
+              <button
+                onClick={loadFavorites}
+                className="text-red-600 hover:text-red-700 text-sm underline mt-1"
+              >
+                重新加载
+              </button>
+            </div>
+          </div>
+        )}
+
+        {loading ? (
+          <div className="text-center py-20 px-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-matsu-primary mx-auto mb-4"></div>
+            <p className="text-matsu-text/60">加载中...</p>
+          </div>
+        ) : favorites.length === 0 ? (
           <div className="text-center py-20 px-4">
             <Heart className="w-16 h-16 text-matsu-border mx-auto mb-4" />
             <p className="text-matsu-text/60 text-lg">还没有收藏任何名字</p>

@@ -1,39 +1,53 @@
 import React, { useState } from 'react';
 import type { GeneratedName } from '../utils/namer';
 import { Heart } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 interface NameCardProps {
   data: GeneratedName;
   familyName: string;
-  onFavorite?: () => void;
+  onFavorite?: () => Promise<void>;
   isFavorited?: boolean;
+  onLoginRequired?: () => void;
 }
 
-export const NameCard: React.FC<NameCardProps> = ({ data, familyName, onFavorite, isFavorited = false }) => {
+export const NameCard: React.FC<NameCardProps> = ({ 
+  data, 
+  familyName, 
+  onFavorite, 
+  isFavorited = false,
+  onLoginRequired 
+}) => {
+  const { user } = useAuth();
   const { name, sentence, book, title, author, dynasty } = data;
   const [isAnimating, setIsAnimating] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = async () => {
+    // Check if user is logged in
+    if (!user) {
+      onLoginRequired?.();
+      return;
+    }
+
     if (onFavorite) {
-      onFavorite();
-      // Trigger animation
-      setIsAnimating(true);
-      setTimeout(() => setIsAnimating(false), 600);
+      setLoading(true);
+      try {
+        await onFavorite();
+        // Trigger animation
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 600);
+      } catch (error) {
+        console.error('收藏操作失败:', error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   // Highlight the characters in the sentence
   const highlightSentence = () => {
     const chars = name.split('');
-    // Simple replacement might fail if characters are repeated, but for display it's usually fine.
-    // A more robust way is to match indices, but the generator logic doesn't return indices.
-    // We'll use a simple split/join approach or regex for display.
-    
-    // Actually, let's just wrap the characters in a span.
-    // Since we don't know exactly which instance of the character was picked if repeated,
-    // we will highlight all instances or just the first ones found?
-    // The original logic picked random indices.
-    // For visual purposes, highlighting all occurrences of the name characters is acceptable.
     
     return (
       <span>
@@ -59,8 +73,9 @@ export const NameCard: React.FC<NameCardProps> = ({ data, familyName, onFavorite
       {onFavorite && (
         <button
           onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 p-2 rounded-full hover:bg-matsu-primary/10 transition-colors"
-          aria-label="我的收藏"
+          disabled={loading}
+          className="absolute top-3 right-3 p-2 rounded-full hover:bg-matsu-primary/10 transition-colors disabled:opacity-50"
+          aria-label={user ? "收藏" : "登录后收藏"}
         >
           <Heart
             className={`w-5 h-5 transition-all duration-300 ${
