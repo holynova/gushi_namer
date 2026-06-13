@@ -19,7 +19,7 @@ export const FamilyNameInput: React.FC<FamilyNameInputProps> = ({
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="bg-transparent border border-matsu-border rounded-lg px-4 py-2 text-center text-xl text-matsu-text placeholder-matsu-text/50 focus:outline-none focus:border-matsu-primary focus:ring-1 focus:ring-matsu-primary transition-all w-32"
+        className="h-[42px] w-full rounded-lg border border-[#D7C7AF] bg-[#F7F0E4] px-3 py-2 text-center font-serif text-xl text-[#28231D] placeholder-[#8D7B68] outline-none transition-all focus:border-[#2F765C] focus:ring-4 focus:ring-[#2F765C]/15"
         placeholder="输入姓氏"
         maxLength={2}
       />

@@ -23,15 +23,15 @@ export const BookSelector: React.FC<BookSelectorProps> = ({
   disabled,
 }) => {
   return (
-    <div className="flex flex-wrap gap-2 justify-center my-2">
+    <div className="grid w-full grid-cols-3 gap-2">
       {books.map((book) => (
         <label
           key={book.id}
           className={clsx(
-            'cursor-pointer px-3 py-1.5 rounded-full border text-sm transition-all duration-200',
+            'cursor-pointer rounded-lg border px-2 py-2 text-center font-sans text-sm whitespace-nowrap transition-all duration-200 sm:px-3',
             selectedBook === book.id
-              ? 'bg-matsu-primary border-matsu-primary text-white shadow-md'
-              : 'bg-transparent border-matsu-border text-matsu-text hover:bg-matsu-primary/10 hover:border-matsu-primary',
+              ? 'border-[#2F765C] bg-[#E8F1EA] text-[#2F765C]'
+              : 'border-[#D7C7AF] bg-white text-[#5D5145] hover:border-[#2F765C]/60',
             disabled && 'opacity-50 cursor-not-allowed'
           )}
         >

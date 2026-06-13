@@ -9,7 +9,7 @@ import { UserMenu } from './components/Auth/UserMenu';
 import { Namer, type GeneratedName } from './utils/namer';
 import { toggleFavorite } from './utils/favorites';
 import { useAuth } from './contexts/AuthContext';
-import { Sparkles, LogIn, UserPlus } from 'lucide-react';
+import { BookOpen, Check, Library, LogIn, RefreshCw, Sparkles, UserPlus } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 function App() {
@@ -131,18 +131,22 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-matsu-bg text-matsu-text font-serif selection:bg-matsu-primary/30">
-      <div className="max-w-4xl mx-auto">
-        <header className={`sticky top-0 z-50 bg-matsu-bg/95 backdrop-blur-sm py-4 px-4 mb-6 transition-all duration-300 ${
+    <div className="min-h-screen bg-[#F7F0E4] text-[#28231D] font-serif selection:bg-[#B85B4D]/20">
+      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-3 py-3 sm:px-6 lg:px-8">
+        <header className={`sticky top-0 z-50 -mx-3 border-b border-[#D7C7AF]/80 bg-[#F7F0E4]/95 px-3 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 transition-all duration-300 ${
           isScrolled ? 'border-b border-matsu-border' : ''
         }`}>
-          <div className="flex items-center justify-between mb-2">
-            <h1 className="text-3xl md:text-4xl font-bold text-matsu-primary tracking-tight flex items-center gap-2">
-              <Sparkles className="w-6 h-6" />
-              古诗文起名
-            </h1>
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 sm:flex sm:items-center sm:justify-between">
+            <div className="min-w-0 text-center sm:text-left">
+              <p className="font-sans text-xs font-medium uppercase tracking-[0.22em] text-[#8D5A4F]">
+                Gushi Namer
+              </p>
+              <h1 className="truncate font-serif text-2xl font-bold text-[#2F765C] sm:text-3xl">
+                古诗文起名
+              </h1>
+            </div>
             
-            <div className="flex items-center gap-2">
+            <div className="mx-auto grid w-full max-w-[280px] grid-cols-2 items-center gap-2 sm:mx-0 sm:w-auto sm:max-w-none sm:flex">
               {user ? (
                 <UserMenu onViewFavorites={() => setPage('favorites')} />
               ) : (
@@ -152,7 +156,7 @@ function App() {
                       setAuthModalView('login');
                       setAuthModalOpen(true);
                     }}
-                    className="flex items-center gap-2 px-4 py-2 text-matsu-primary hover:text-matsu-primaryHover transition-colors border border-matsu-border rounded-full hover:bg-matsu-primary/10"
+                    className="flex h-10 items-center justify-center gap-1.5 rounded-full border border-[#D7C7AF] bg-white/60 px-3 font-sans text-sm text-[#2F765C] transition-colors hover:border-[#2F765C] hover:bg-white md:gap-2 md:px-4"
                   >
                     <LogIn className="w-4 h-4" />
                     登录
@@ -162,7 +166,7 @@ function App() {
                       setAuthModalView('register');
                       setAuthModalOpen(true);
                     }}
-                    className="flex items-center gap-2 px-4 py-2 bg-matsu-primary hover:bg-matsu-primaryHover text-white rounded-full transition-colors"
+                    className="flex h-10 items-center justify-center gap-1.5 rounded-full bg-[#2F765C] px-3 font-sans text-sm text-white shadow-sm shadow-[#2F765C]/15 transition-colors hover:bg-[#275F4B] md:gap-2 md:px-4"
                   >
                     <UserPlus className="w-4 h-4" />
                     注册
@@ -171,21 +175,37 @@ function App() {
               )}
             </div>
           </div>
-          <p className="text-matsu-text/70 text-sm text-center">
-            翻阅经典, 与一个好名字不期而遇
-          </p>
         </header>
 
-        <main className="space-y-6 px-4 pb-6">
-          <section className="bg-matsu-card/50 rounded-2xl p-4 md:p-6 border border-matsu-border backdrop-blur-sm">
-            <div className="flex flex-col items-center">
+        <main className="grid flex-1 gap-4 py-4 sm:gap-6 sm:py-6 lg:grid-cols-[360px_minmax(0,1fr)]">
+          <aside className="rounded-lg border border-[#D7C7AF] bg-[#FFFDF8] p-4 shadow-sm shadow-[#B59B7A]/10 sm:p-5 lg:sticky lg:top-24 lg:h-fit">
+            <div className="mb-4 flex items-center justify-between sm:mb-5">
+              <div>
+                <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#8D5A4F]">
+                  Source
+                </p>
+                <h2 className="font-serif text-[1.7rem] font-bold leading-tight sm:text-2xl">
+                  从经典中取字
+                </h2>
+              </div>
+              <Library className="h-6 w-6 text-[#2F765C]" />
+            </div>
+
+            <label className="mb-2 block font-sans text-sm font-medium text-[#5D5145]">
+              选择典籍
+            </label>
+            <div className="mb-5">
               <BookSelector 
                 selectedBook={selectedBook} 
                 onSelect={setSelectedBook} 
                 disabled={initializing}
               />
-              
-              <div className="flex items-end gap-4">
+            </div>
+
+            <label className="mb-2 block font-sans text-sm font-medium text-[#5D5145]">
+              输入姓氏
+            </label>
+            <div className="mb-5 grid w-full grid-cols-[96px_minmax(0,1fr)] items-end gap-2 sm:gap-3">
                 <FamilyNameInput 
                   value={familyName} 
                   onChange={setFamilyName} 
@@ -194,17 +214,47 @@ function App() {
                 <button
                   onClick={handleGenerate}
                   disabled={initializing}
-                  className="mb-2 px-6 py-2 bg-matsu-primary hover:bg-matsu-primaryHover text-white rounded-full font-bold text-base shadow-md transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2 h-[42px] w-[120px]"
+                  className="mb-2 flex h-[42px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-[#B85B4D] px-3 font-sans font-semibold text-white shadow-sm shadow-[#B85B4D]/20 transition hover:bg-[#A94D42] disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {initializing ? '加载中...' : '起名'}
-                  {!initializing && <Sparkles className="w-4 h-4" />}
+                  {initializing ? '加载中...' : '换一组'}
+                  {!initializing && <RefreshCw className="w-4 h-4" />}
                 </button>
+            </div>
+
+            <div className="hidden rounded-lg bg-[#F7F0E4] p-4 lg:block">
+              <div className="mb-2 flex items-center gap-2 font-sans text-sm font-semibold text-[#2F765C]">
+                <Check className="h-4 w-4" />
+                今日取名偏好
+              </div>
+              <p className="font-sans text-sm leading-6 text-[#5D5145]">
+                清朗、好读、有出处；先看含义，再看音韵。
+              </p>
+            </div>
+          </aside>
+
+          <section className="space-y-4 sm:space-y-5">
+            <div className="hidden rounded-lg border border-[#D7C7AF] bg-[#FFFDF8] p-4 shadow-sm shadow-[#B59B7A]/10 sm:p-5 lg:block">
+              <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#8D5A4F]">
+                    Results
+                  </p>
+                  <h2 className="font-serif text-[1.8rem] font-bold leading-tight sm:text-3xl">
+                    {generatedNames.length > 0 ? `${generatedNames.length} 个候选名字` : '准备开始取名'}
+                  </h2>
+                  <p className="mt-2 font-sans text-sm text-[#6D6257]">
+                    翻阅经典，与一个好名字不期而遇。每个名字保留出处和一句原文。
+                  </p>
+                </div>
+                <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E8F1EA] px-3 py-2 font-sans text-sm text-[#2F765C]">
+                  <Sparkles className="h-4 w-4" />
+                  已避开常见忌字
+                </div>
               </div>
             </div>
-          </section>
 
-          {generatedNames.length > 0 && (
-            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {generatedNames.length > 0 ? (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
               {generatedNames.map((name, index) => {
                 const key = `${familyName}${name.name}`;
                 return (
@@ -218,52 +268,83 @@ function App() {
                   />
                 );
               })}
-            </section>
-          )}
+              </div>
+            ) : (
+              <div className="rounded-lg border border-dashed border-[#D7C7AF] bg-[#FFFDF8]/70 p-8 text-center">
+                <BookOpen className="mx-auto mb-4 h-10 w-10 text-[#2F765C]" />
+                <p className="font-serif text-2xl font-bold text-[#28231D]">先选典籍，再生成名字</p>
+                <p className="mt-2 font-sans text-sm text-[#6D6257]">
+                  建议从诗经或楚辞开始，慢慢比较出处、音韵和气质。
+                </p>
+              </div>
+            )}
+
+            <div className="rounded-lg border border-[#D7C7AF] bg-[#FFFDF8] p-4 shadow-sm shadow-[#B59B7A]/10 sm:p-5 lg:hidden">
+              <div className="flex flex-col gap-3">
+                <div>
+                  <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#8D5A4F]">
+                    Results
+                  </p>
+                  <h2 className="font-serif text-[1.8rem] font-bold leading-tight">
+                    {generatedNames.length > 0 ? `${generatedNames.length} 个候选名字` : '准备开始取名'}
+                  </h2>
+                  <p className="mt-2 font-sans text-sm text-[#6D6257]">
+                    每个名字保留出处和一句原文，适合慢慢比较。
+                  </p>
+                </div>
+                <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E8F1EA] px-3 py-2 font-sans text-sm text-[#2F765C]">
+                  <Sparkles className="h-4 w-4" />
+                  已避开常见忌字
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg bg-[#FFFDF8] p-4 shadow-sm shadow-[#B59B7A]/10 ring-1 ring-[#D7C7AF] lg:hidden">
+              <div className="mb-2 flex items-center gap-2 font-sans text-sm font-semibold text-[#2F765C]">
+                <Check className="h-4 w-4" />
+                今日取名偏好
+              </div>
+              <p className="font-sans text-sm leading-6 text-[#5D5145]">
+                清朗、好读、有出处；先看含义，再看音韵。
+              </p>
+            </div>
+          </section>
         </main>
 
-        <footer className="mt-16 text-center text-matsu-text/50 text-sm space-y-2">
-          <p>© {new Date().getFullYear()} 古诗文起名 | 诗词数据来源于网络</p>
-          <div className="flex items-center justify-center gap-4">
+        <footer className="border-t border-[#D7C7AF]/70 pb-24 pt-6 text-center font-sans text-sm text-[#8D7B68] lg:pb-8">
+          <p>© {new Date().getFullYear()} 古诗文起名</p>
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <a 
               href="https://github.com/holynova/gushi_namer" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-matsu-primary hover:text-matsu-primaryHover transition-colors"
+              className="text-[#2F765C] transition-colors hover:text-[#275F4B]"
             >
-              本项目完全开源
+              GitHub
             </a>
             <span>•</span>
-            <span>作者: holynova</span>
-          </div>
-          <div className="flex items-center justify-center gap-4">
-            <a 
-              href="https://github.com/holynova/gushi_namer" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-matsu-primary hover:text-matsu-primaryHover transition-colors"
-            >
-              github地址 https://github.com/holynova/gushi_namer
-            </a>
-          </div>
-          <div className="flex items-center justify-center gap-2 pt-2">
-            <span className="text-matsu-text/40">访问量:</span>
-            <img 
-              src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fholynova.github.io%2Fgushi_namer&count_bg=%238B9D5E&title_bg=%23E6D5B8&icon=&icon_color=%23E7E7E7&title=访问&edge_flat=false"
-              alt="访问统计"
-              className="inline-block"
-            />
-          </div>
-          <div className="pt-2">
             <button
               onClick={() => setPage('about')}
-              className="text-matsu-primary hover:text-matsu-primaryHover transition-colors underline"
+              className="text-[#2F765C] transition-colors hover:text-[#275F4B]"
             >
-              关于本项目
+              关于
             </button>
+            <span>•</span>
+            <span>作者 holynova</span>
           </div>
+          <p className="mt-2 text-xs text-[#8D7B68]/75">诗词数据来源于网络</p>
         </footer>
       </div>
+
+      <button
+        onClick={handleGenerate}
+        disabled={initializing}
+        className="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#B85B4D] text-white shadow-lg shadow-[#B85B4D]/30 transition hover:bg-[#A94D42] disabled:cursor-not-allowed disabled:opacity-50 sm:bottom-6 sm:right-6"
+        aria-label={initializing ? '加载中' : '重新生成新名字'}
+        title={initializing ? '加载中' : '重新生成'}
+      >
+        <RefreshCw className={`h-6 w-6 ${initializing ? 'animate-spin' : ''}`} />
+      </button>
       
       {/* Toast Notification */}
       {toast && (
