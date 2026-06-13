@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Heart, Trash2, ArrowLeft, AlertCircle, User } from 'lucide-react';
-import { getFavorites, removeFavorite, type FavoriteItem } from '../utils/favorites';
+import React, { useRef, useState, useEffect } from 'react';
+import { Heart, Trash2, ArrowLeft, AlertCircle, User, Download, Upload } from 'lucide-react';
+import {
+  exportFavorites,
+  getFavorites,
+  importFavorites,
+  removeFavorite,
+  type FavoriteItem,
+} from '../utils/favorites';
 import { NameCard } from './NameCard';
-import { useAuth } from '../contexts/AuthContext';
 
 interface FavoritesPageProps {
   onBack: () => void;
 }
 
 export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
-  const { user } = useAuth();
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const importInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     loadFavorites();
@@ -52,24 +58,40 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
     }
   };
 
-  // 如果未登录，显示提示
-  if (!user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F7F0E4] px-4 text-[#28231D] font-serif">
-        <div className="w-full max-w-md rounded-lg border border-[#D7C7AF] bg-[#FFFDF8] p-8 text-center shadow-sm shadow-[#B59B7A]/10">
-          <Heart className="w-14 h-14 text-[#D7C7AF] mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-[#2F765C] mb-2">请先登录</h2>
-          <p className="font-sans text-[#6D6257] mb-6">登录后即可查看您的收藏</p>
-          <button
-            onClick={onBack}
-            className="rounded-lg bg-[#2F765C] px-6 py-2 font-sans text-white transition-colors hover:bg-[#275F4B]"
-          >
-            返回首页
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const handleExport = async () => {
+    const data = await exportFavorites();
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = `gushi-namer-favorites-${new Date()
+      .toISOString()
+      .slice(0, 10)}.json`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+    setMessage('收藏已导出为 JSON 文件');
+  };
+
+  const handleImportFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setError('');
+    setMessage('');
+
+    try {
+      const text = await file.text();
+      const result = await importFavorites(JSON.parse(text));
+      await loadFavorites();
+      setMessage(`导入完成：新增 ${result.imported} 个收藏，共 ${result.total} 个`);
+    } catch (err: any) {
+      setError(err.message || '导入失败，请检查 JSON 文件格式');
+    } finally {
+      event.target.value = '';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F7F0E4] text-[#28231D] font-serif">
@@ -90,9 +112,46 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
                 Library
               </p>
               <h1 className="font-serif text-2xl font-bold text-[#2F765C] sm:text-3xl">我的收藏</h1>
+              <p className="mt-1 hidden font-sans text-xs text-[#6D6257] sm:block">
+                在这里导出或导入收藏 JSON
+              </p>
             </div>
           </div>
         </header>
+
+        <section className="mt-5 rounded-lg border border-[#D7C7AF] bg-[#FFFDF8] p-4 shadow-sm shadow-[#B59B7A]/10 ring-2 ring-[#2F765C]/5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="font-serif text-xl font-bold text-[#28231D]">本地收藏</h2>
+              <p className="mt-1 font-sans text-sm text-[#6D6257]">
+                收藏保存在当前浏览器。可导出 JSON 备份，也可从 JSON 导入恢复。
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-2 sm:flex">
+              <button
+                onClick={handleExport}
+                className="flex h-10 items-center justify-center gap-2 rounded-lg border border-[#D7C7AF] bg-white px-3 font-sans text-sm text-[#2F765C] transition hover:border-[#2F765C]"
+              >
+                <Download className="h-4 w-4" />
+                导出收藏 JSON
+              </button>
+              <button
+                onClick={() => importInputRef.current?.click()}
+                className="flex h-10 items-center justify-center gap-2 rounded-lg bg-[#2F765C] px-3 font-sans text-sm text-white transition hover:bg-[#275F4B]"
+              >
+                <Upload className="h-4 w-4" />
+                导入 JSON
+              </button>
+              <input
+                ref={importInputRef}
+                type="file"
+                accept="application/json,.json"
+                onChange={handleImportFile}
+                className="hidden"
+              />
+            </div>
+          </div>
+        </section>
 
         {error && (
           <div className="my-5 rounded-lg border border-red-200 bg-red-50 p-3 flex items-start gap-2">
@@ -106,6 +165,12 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
                 重新加载
               </button>
             </div>
+          </div>
+        )}
+
+        {message && (
+          <div className="my-5 rounded-lg border border-green-200 bg-green-50 p-3 font-sans text-sm text-green-800">
+            {message}
           </div>
         )}
 

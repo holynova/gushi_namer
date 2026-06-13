@@ -1,82 +1,65 @@
-# 你的名字-用诗经, 楚辞, 唐诗,宋词起名字
+# 古诗文起名
 
-## slogan
-翻阅经典, 与一个好名字不期而遇
+翻阅经典，与一个好名字不期而遇。
 
-## demo
-- [http://xiaosang.net/gushi_namer/](http://xiaosang.net/gushi_namer/), 支持手机查看
-- [https://holynova.github.io/gushi_namer/](https://holynova.github.io/gushi_namer/), 支持手机查看
+古诗文起名从《诗经》《楚辞》、唐诗、宋词等典籍中取字组合名字，并保留诗句出处。v3.0 版本重新设计了桌面端与移动端体验，支持本地收藏、JSON 导入导出和名字分享卡片。
+
+## Demo
+
+- [https://holynova.github.io/gushi_namer/](https://holynova.github.io/gushi_namer/)
+- [http://xiaosang.net/gushi_namer/](http://xiaosang.net/gushi_namer/)
 
 ## 截图预览
-<div align="center">
-  <img src="main.png" width="200" />
-  <img src="bookmark.png" width="200" />
-</div>
 
-## 支持的经典
+### 桌面端
+
+| 起名首页 | 收藏与 JSON 导入导出 | 分享卡片 |
+| --- | --- | --- |
+| ![桌面端起名首页](docs/screenshots/desktop-home.png) | ![桌面端收藏页](docs/screenshots/desktop-favorites.png) | ![桌面端分享卡片](docs/screenshots/desktop-share.png) |
+
+### 移动端
+
+| 起名首页 | 收藏与 JSON 导入导出 | 分享卡片 |
+| --- | --- | --- |
+| ![移动端起名首页](docs/screenshots/mobile-home.png) | ![移动端收藏页](docs/screenshots/mobile-favorites.png) | ![移动端分享卡片](docs/screenshots/mobile-share.png) |
+
+## 主要功能
+
+- 启动后自动生成 6 个候选名字，切换典籍后立即刷新。
+- 收藏数据保存在当前浏览器，无需登录。
+- 支持收藏记录 JSON 导出和导入，方便备份迁移。
+- 支持生成名字分享卡片，包含原诗句、出处、项目链接和二维码。
+- 移动端滚动时头部自动收起，保留换一组、收藏、关于三个快捷入口。
+
+## 支持的典籍
+
 1. 诗经
-1. 楚辞
-1. 唐诗
-1. 宋词
-1. 乐府诗集
-1. 古诗三百首
-1. 著名辞赋
+2. 楚辞
+3. 唐诗
+4. 宋词
+5. 乐府诗集
+6. 古诗三百首
+7. 著名辞赋
 
-## 作者的话
-我是作者holy_nova, 这个5年前的项目, 最近获得了颇多关注, 感谢大家的star.
+## 本地运行
 
-这个项目出发点, 是基于这样一个简单的理念: **词库好, 名字就好, 即使是随机取的**.  
+```bash
+git clone https://github.com/holynova/gushi_namer.git
+cd gushi_namer
+pnpm install
+pnpm dev
+```
 
-> 我叫周星驰, 取自滕王阁序"雄州雾列, 俊采星驰". 
+构建：
 
-这是我这个项目期望达到的效果. 
-
-常说"男诗经, 女楚辞", 我爬取了中华传统经典的唐诗宋词等, 作为孕育好名字的优秀文本.
-
-这个项目没有任何人工智能, 没有判断名字价值的目标函数(5年前做这个项目时候, 人工智能还不像现在这么火). 
-
-既然是随机, 就有可能带来一些智障, 搞笑的名字, 反过来惊艳, 惊鸿一瞥的名字也在随机中孕育
-
-让这个程序帮你翻阅经典, 与一个好名字不期而遇
-
-2021年09月04日
-
-## QA
-1. 为什么会有很多搞笑的名字? 
-> 因为是随机生成的, 自由组合
-2. 为什么会有脏字?
-> 我已经加了一些脏字的简单过滤, 但试验下来, 发现古诗文里面脏字实在太多, 人工是过滤不完的.有兴许的源码里面搜索"狗", 找到敏感词列表, 自己扩展
-3. 为什么只有2个字的名字, 能否更改字数? 
-> 这是一个简单的参数问题, 改起来很简单. 我这里采取了2个字名字, 因为1个字的话, 跟诗文没有什么关系, 这个字可以取自任何地方. "三分诗, 七分读", 3个字的话, 人们很难读出韵味来.
-4. 能否增加生成名字的数量?
-> 又是一个简单的参数问题. 我限制了数量, 希望你能放慢脚步, 仔细的读生成出来的每个名字, 好名字是琢磨出来的. 如果一下子生成100个, 其实很难有耐心仔细的读他们.
-> 当然, 非要增加数量的话, 你可以多点几次生成, 就可以无限刷. 小技巧: 电脑上按回车就能再出6个名字
-5. 词库哪里来的?
-> 当年我用scrapy爬的古诗文网, 做成了json
-
-
-
+```bash
+pnpm build
+```
 
 ## 开源
-- [开源项目地址](https://github.com/holynova/gushi_namer), 欢迎star和fork
-- 作者: [holynova](https://github.com/holynova)
 
-## 源码运行方法
-- 方法1: 直接点击`dist`目录中压缩好的html文件
-- 方法2: 源代码运行
-```
-git clone https://github.com/holynova/gushi_namer.git
-npm install
-
-# 本地调试
-npm run dev
-
-# 编译
-npm run build
-
-```
-
-
+- [GitHub 仓库](https://github.com/holynova/gushi_namer)
+- 作者：[holynova](https://github.com/holynova)
 
 ## Star History
 

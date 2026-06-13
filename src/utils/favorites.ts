@@ -1,8 +1,6 @@
-import { supabase } from '../config/supabase'
 import type { GeneratedName } from './namer'
-import type { Database } from '../types/database'
 
-type FavoriteRow = Database['public']['Tables']['favorites']['Row']
+const STORAGE_KEY = 'gushi_namer:favorites:v1'
 
 export interface FavoriteItem extends GeneratedName {
   id: string
@@ -10,156 +8,158 @@ export interface FavoriteItem extends GeneratedName {
   savedAt: number
 }
 
-/**
- * 获取当前用户的收藏列表
- */
-export const getFavorites = async (): Promise<FavoriteItem[]> => {
+export interface FavoritesExport {
+  app: 'gushi_namer'
+  exportedAt: string
+  version: 1
+  favorites: FavoriteItem[]
+}
+
+const createFavoriteId = (familyName: string, name: string, savedAt = Date.now()) =>
+  `${familyName}-${name}-${savedAt}`
+
+const normalizeFavorite = (item: Partial<FavoriteItem>): FavoriteItem | null => {
+  if (!item.name || !item.familyName || !item.sentence || !item.title || !item.book) {
+    return null
+  }
+
+  const savedAt = typeof item.savedAt === 'number' ? item.savedAt : Date.now()
+
+  return {
+    id: item.id || createFavoriteId(item.familyName, item.name, savedAt),
+    name: item.name,
+    familyName: item.familyName,
+    sentence: item.sentence,
+    content: item.content || item.sentence,
+    title: item.title,
+    author: item.author || '佚名',
+    book: item.book,
+    dynasty: item.dynasty || '',
+    savedAt,
+  }
+}
+
+const readFavorites = (): FavoriteItem[] => {
+  if (typeof window === 'undefined') return []
+
   try {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return []
-    }
+    const raw = window.localStorage.getItem(STORAGE_KEY)
+    if (!raw) return []
 
-    const { data, error } = await supabase
-      .from('favorites')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
+    const parsed = JSON.parse(raw)
+    const list = Array.isArray(parsed) ? parsed : parsed?.favorites
+    if (!Array.isArray(list)) return []
 
-    if (error) throw error
-
-    // 转换数据格式
-    return (data || []).map((row: FavoriteRow) => ({
-      id: row.id,
-      name: row.name,
-      familyName: row.family_name,
-      book: row.book,
-      author: row.author || '',
-      title: row.title,
-      sentence: row.sentence,
-      content: row.sentence, // 使用 sentence 作为 content
-      dynasty: '', // 从 author 中提取或默认为空
-      savedAt: new Date(row.created_at).getTime(),
-    }))
+    return list
+      .map((item) => normalizeFavorite(item))
+      .filter((item): item is FavoriteItem => Boolean(item))
+      .sort((a, b) => b.savedAt - a.savedAt)
   } catch (error) {
-    console.error('Failed to load favorites:', error)
+    console.error('Failed to load local favorites:', error)
     return []
   }
 }
 
-/**
- * 保存收藏
- */
+const writeFavorites = (favorites: FavoriteItem[]) => {
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites))
+}
+
+export const getFavorites = async (): Promise<FavoriteItem[]> => {
+  return readFavorites()
+}
+
 export const saveFavorite = async (
   name: GeneratedName,
   familyName: string
 ): Promise<void> => {
-  try {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      throw new Error('请先登录')
-    }
+  const favorites = readFavorites()
+  const exists = favorites.some(
+    (item) => item.name === name.name && item.familyName === familyName
+  )
 
-    const { error } = await supabase.from('favorites').insert({
-      user_id: user.id,
-      name: name.name,
-      family_name: familyName,
-      book: name.book,
-      author: name.author || null,
-      title: name.title,
-      sentence: name.sentence,
-    })
+  if (exists) return
 
-    if (error) {
-      // 处理重复收藏错误
-      if (error.code === '23505') {
-        throw new Error('该名字已在收藏中')
-      }
-      throw error
-    }
-  } catch (error) {
-    console.error('Failed to save favorite:', error)
-    throw error
+  const savedAt = Date.now()
+  const favorite: FavoriteItem = {
+    ...name,
+    id: createFavoriteId(familyName, name.name, savedAt),
+    familyName,
+    savedAt,
   }
+
+  writeFavorites([favorite, ...favorites])
 }
 
-/**
- * 删除收藏
- */
 export const removeFavorite = async (id: string): Promise<void> => {
-  try {
-    const { error } = await supabase.from('favorites').delete().eq('id', id)
-
-    if (error) throw error
-  } catch (error) {
-    console.error('Failed to remove favorite:', error)
-    throw error
-  }
+  writeFavorites(readFavorites().filter((item) => item.id !== id))
 }
 
-/**
- * 检查是否已收藏
- */
 export const isFavorite = async (
   name: string,
   familyName: string
 ): Promise<boolean> => {
-  try {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return false
-
-    const { data, error } = await supabase
-      .from('favorites')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('name', name)
-      .eq('family_name', familyName)
-      .limit(1)
-
-    if (error) throw error
-
-    return (data?.length || 0) > 0
-  } catch (error) {
-    console.error('Failed to check favorite:', error)
-    return false
-  }
+  return readFavorites().some(
+    (item) => item.name === name && item.familyName === familyName
+  )
 }
 
-/**
- * 切换收藏状态
- */
 export const toggleFavorite = async (
   name: GeneratedName,
   familyName: string
 ): Promise<boolean> => {
-  try {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      throw new Error('请先登录')
-    }
+  const favorites = readFavorites()
+  const existing = favorites.find(
+    (item) => item.name === name.name && item.familyName === familyName
+  )
 
-    // 查找是否已收藏
-    const { data: existing, error: queryError } = await supabase
-      .from('favorites')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('name', name.name)
-      .eq('family_name', familyName)
-      .limit(1)
-
-    if (queryError) throw queryError
-
-    if (existing && existing.length > 0) {
-      // 已收藏，删除
-      await removeFavorite(existing[0].id)
-      return false
-    } else {
-      // 未收藏，添加
-      await saveFavorite(name, familyName)
-      return true
-    }
-  } catch (error) {
-    console.error('Failed to toggle favorite:', error)
-    throw error
+  if (existing) {
+    writeFavorites(favorites.filter((item) => item.id !== existing.id))
+    return false
   }
+
+  await saveFavorite(name, familyName)
+  return true
+}
+
+export const exportFavorites = async (): Promise<FavoritesExport> => ({
+  app: 'gushi_namer',
+  exportedAt: new Date().toISOString(),
+  version: 1,
+  favorites: readFavorites(),
+})
+
+export const importFavorites = async (
+  payload: unknown
+): Promise<{ imported: number; total: number }> => {
+  const list = Array.isArray(payload)
+    ? payload
+    : Array.isArray((payload as Partial<FavoritesExport>)?.favorites)
+      ? (payload as Partial<FavoritesExport>).favorites
+      : null
+
+  if (!list) {
+    throw new Error('JSON 格式不正确，请导入收藏导出的 JSON 文件')
+  }
+
+  const current = readFavorites()
+  const byKey = new Map(
+    current.map((item) => [`${item.familyName}-${item.name}-${item.title}`, item])
+  )
+  let imported = 0
+
+  list.forEach((rawItem) => {
+    const item = normalizeFavorite(rawItem)
+    if (!item) return
+
+    const key = `${item.familyName}-${item.name}-${item.title}`
+    if (!byKey.has(key)) {
+      byKey.set(key, item)
+      imported += 1
+    }
+  })
+
+  const merged = Array.from(byKey.values()).sort((a, b) => b.savedAt - a.savedAt)
+  writeFavorites(merged)
+
+  return { imported, total: merged.length }
 }
