@@ -1,6 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import type { GeneratedName } from '../utils/namer';
 import { Copy, Download, Heart, Share2, X } from 'lucide-react';
+import { toPng } from 'html-to-image';
+import { QRCodeSVG } from 'qrcode.react';
 
 interface NameCardProps {
   data: GeneratedName;
@@ -10,22 +12,6 @@ interface NameCardProps {
 }
 
 const PROJECT_URL = 'https://holynova.github.io/gushi_namer/';
-
-const escapeXml = (value: string) =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
-
-const splitText = (text: string, maxLength: number) => {
-  const lines: string[] = [];
-  for (let i = 0; i < text.length; i += maxLength) {
-    lines.push(text.slice(i, i + maxLength));
-  }
-  return lines;
-};
 
 export const NameCard: React.FC<NameCardProps> = ({
   data,
@@ -38,10 +24,11 @@ export const NameCard: React.FC<NameCardProps> = ({
   const [loading, setLoading] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
+  const [downloadingCard, setDownloadingCard] = useState(false);
+  const shareCardRef = useRef<HTMLDivElement>(null);
 
   const fullName = `${familyName}${name}`;
   const source = `${dynasty ? `${dynasty} · ` : ''}${author || '佚名'} · ${title}`;
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=8&data=${encodeURIComponent(PROJECT_URL)}`;
 
   const shareText = useMemo(
     () => `我在「古诗文起名」遇到了名字：${fullName}\n\n「${sentence}」\n${source}\n\n${PROJECT_URL}`,
@@ -69,62 +56,25 @@ export const NameCard: React.FC<NameCardProps> = ({
     setTimeout(() => setShareCopied(false), 1800);
   };
 
-  const buildShareSvg = () => {
-    const sentenceLines = splitText(sentence, 16);
-    const sourceLines = splitText(source, 18);
-    const nameChars = name.split('');
-    const sentenceTspans = sentenceLines
-      .map((line, index) => {
-        const chars = line
-          .split('')
-          .map((char) =>
-            nameChars.includes(char)
-              ? `<tspan font-weight="700" fill="#1F5F4A">${escapeXml(char)}</tspan>`
-              : escapeXml(char)
-          )
-          .join('');
-        return `<tspan x="96" dy="${index === 0 ? 0 : 34}">${chars}</tspan>`;
-      })
-      .join('');
-    const sourceTspans = sourceLines
-      .map((line, index) => `<tspan x="96" dy="${index === 0 ? 0 : 24}">${escapeXml(line)}</tspan>`)
-      .join('');
+  const handleDownloadCard = async () => {
+    if (!shareCardRef.current) return;
 
-    return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200">
-  <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FFFDF8"/>
-      <stop offset="1" stop-color="#F4E7D2"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#8D7B68" flood-opacity="0.22"/>
-    </filter>
-  </defs>
-  <rect width="900" height="1200" fill="#F7F0E4"/>
-  <rect x="60" y="60" width="780" height="1080" rx="34" fill="url(#paper)" stroke="#D7C7AF" stroke-width="3" filter="url(#shadow)"/>
-  <text x="96" y="140" fill="#8D5A4F" font-family="Arial, sans-serif" font-size="24" letter-spacing="6">GUSHI NAMER</text>
-  <text x="96" y="272" fill="#28231D" font-family="KaiTi, STKaiti, serif" font-size="94" font-weight="700">${escapeXml(fullName)}</text>
-  <line x1="96" y1="326" x2="804" y2="326" stroke="#D7C7AF" stroke-width="3"/>
-  <text x="96" y="430" fill="#2F765C" font-family="KaiTi, STKaiti, serif" font-size="42">${sentenceTspans}</text>
-  <text x="96" y="612" fill="#6D6257" font-family="Arial, sans-serif" font-size="28">${sourceTspans}</text>
-  <rect x="96" y="740" width="708" height="250" rx="24" fill="#F7F0E4" stroke="#E2D5C2"/>
-  <text x="130" y="808" fill="#28231D" font-family="KaiTi, STKaiti, serif" font-size="34">翻阅经典，与一个好名字不期而遇</text>
-  <text x="130" y="862" fill="#6D6257" font-family="Arial, sans-serif" font-size="24">${escapeXml(PROJECT_URL)}</text>
-  <image href="${escapeXml(qrUrl)}" x="630" y="790" width="132" height="132"/>
-  <text x="130" y="940" fill="#2F765C" font-family="Arial, sans-serif" font-size="22">扫码打开古诗文起名</text>
-</svg>`;
-  };
-
-  const handleDownloadCard = () => {
-    const svg = buildShareSvg();
-    const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = `gushi-namer-${fullName}.svg`;
-    anchor.click();
-    URL.revokeObjectURL(url);
+    setDownloadingCard(true);
+    try {
+      const dataUrl = await toPng(shareCardRef.current, {
+        cacheBust: true,
+        pixelRatio: 3,
+        backgroundColor: '#FFFDF8',
+      });
+      const anchor = document.createElement('a');
+      anchor.href = dataUrl;
+      anchor.download = `gushi-namer-${fullName}.png`;
+      anchor.click();
+    } catch (error) {
+      console.error('生成分享卡片失败:', error);
+    } finally {
+      setDownloadingCard(false);
+    }
   };
 
   const highlightSentence = () => {
@@ -247,7 +197,10 @@ export const NameCard: React.FC<NameCardProps> = ({
             </div>
 
             <div className="overflow-hidden rounded-lg border border-[#D7C7AF] bg-[#F7F0E4] p-5">
-              <div className="rounded-lg border border-[#D7C7AF] bg-[#FFFDF8] p-6 text-center shadow-sm shadow-[#B59B7A]/10">
+              <div
+                ref={shareCardRef}
+                className="rounded-lg border border-[#D7C7AF] bg-[#FFFDF8] p-6 text-center shadow-sm shadow-[#B59B7A]/10"
+              >
                 <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8D5A4F]">
                   Gushi Namer
                 </p>
@@ -261,11 +214,15 @@ export const NameCard: React.FC<NameCardProps> = ({
                   {source}
                 </p>
                 <div className="mt-6 flex items-center justify-center gap-4 rounded-lg bg-[#F7F0E4] p-4">
-                  <img
-                    src={qrUrl}
-                    alt="古诗文起名项目二维码"
-                    className="h-20 w-20 rounded-md bg-white p-1"
-                  />
+                  <div className="rounded-md bg-white p-1" aria-label="古诗文起名项目二维码">
+                    <QRCodeSVG
+                      value={PROJECT_URL}
+                      size={80}
+                      bgColor="#FFFFFF"
+                      fgColor="#28231D"
+                      marginSize={1}
+                    />
+                  </div>
                   <div className="text-left font-sans">
                     <p className="text-sm font-semibold text-[#28231D]">扫码试试你的名字</p>
                     <p className="mt-1 break-all text-xs leading-5 text-[#6D6257]">{PROJECT_URL}</p>
@@ -284,10 +241,11 @@ export const NameCard: React.FC<NameCardProps> = ({
               </button>
               <button
                 onClick={handleDownloadCard}
-                className="flex h-11 items-center justify-center gap-2 rounded-lg bg-[#2F765C] px-3 font-sans text-sm text-white transition hover:bg-[#275F4B]"
+                disabled={downloadingCard}
+                className="flex h-11 items-center justify-center gap-2 rounded-lg bg-[#2F765C] px-3 font-sans text-sm text-white transition hover:bg-[#275F4B] disabled:cursor-not-allowed disabled:opacity-70"
               >
                 <Download className="h-4 w-4" />
-                下载卡片
+                {downloadingCard ? '生成中...' : '下载 PNG'}
               </button>
             </div>
           </div>
