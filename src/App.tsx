@@ -113,6 +113,12 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    if (page === 'about') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
+  }, [page]);
+
   if (page === 'favorites') {
     return <FavoritesPage onBack={() => setPage('main')} />;
   }
@@ -342,6 +348,9 @@ function App() {
 
         <footer className="border-t border-[#D7C7AF]/70 pb-24 pt-6 text-center font-sans text-sm text-[#8D7B68] lg:pb-8">
           <p>© {new Date().getFullYear()} 古诗文起名</p>
+          <p className="mt-2 text-xs text-[#8D7B68]/75">
+            访客 <span id="busuanzi_value_site_uv">--</span> · 浏览 <span id="busuanzi_value_site_pv">--</span>
+          </p>
           <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <a
               href="https://github.com/holynova/gushi_namer"

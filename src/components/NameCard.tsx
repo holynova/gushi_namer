@@ -111,7 +111,7 @@ export const NameCard: React.FC<NameCardProps> = ({
   <rect x="96" y="740" width="708" height="250" rx="24" fill="#F7F0E4" stroke="#E2D5C2"/>
   <text x="130" y="808" fill="#28231D" font-family="KaiTi, STKaiti, serif" font-size="34">翻阅经典，与一个好名字不期而遇</text>
   <text x="130" y="862" fill="#6D6257" font-family="Arial, sans-serif" font-size="24">${escapeXml(PROJECT_URL)}</text>
-  <image href="${qrUrl}" x="630" y="790" width="132" height="132"/>
+  <image href="${escapeXml(qrUrl)}" x="630" y="790" width="132" height="132"/>
   <text x="130" y="940" fill="#2F765C" font-family="Arial, sans-serif" font-size="22">扫码打开古诗文起名</text>
 </svg>`;
   };
