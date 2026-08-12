@@ -63,7 +63,7 @@ pnpm build
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=holynova/gushi_namer&type=Date)](https://www.star-history.com/#holynova/gushi_namer&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=holynova/gushi_namer&type=Date)](https://star-history.dera.page/#holynova/gushi_namer&type=date)
 
 ## Demo 分享卡片
 
