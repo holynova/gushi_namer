@@ -5,6 +5,7 @@ import { NameCard } from './components/NameCard';
 import { FavoritesPage } from './components/FavoritesPage';
 import { AboutPage } from './components/AboutPage';
 import { Namer, type GeneratedName } from './utils/namer';
+import { AiNameSelector } from './utils/aiNameSelector';
 import { isFavorite, toggleFavorite } from './utils/favorites';
 import { Check, Heart, Library, RefreshCw, Sparkles, Info } from 'lucide-react';
 
@@ -16,12 +17,22 @@ function App() {
   const [selectedBook, setSelectedBook] = useState<string>('shijing');
   const [familyName, setFamilyName] = useState<string>('苏');
   const [generatedNames, setGeneratedNames] = useState<GeneratedName[]>([]);
+  const [aiGeneratedNames, setAiGeneratedNames] = useState<GeneratedName[]>([]);
   const [initializing, setInitializing] = useState<boolean>(true);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [favoriteStates, setFavoriteStates] = useState<Record<string, boolean>>({});
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   const namerRef = useRef<Namer>(new Namer());
+  const aiSelectorRef = useRef<AiNameSelector>(new AiNameSelector());
+  const familyNameRef = useRef(familyName);
+  const lastAiFamilyNameRef = useRef(familyName);
+
+  const generateAiNames = useCallback((surname = familyNameRef.current) => {
+    const names = aiSelectorRef.current.generate(namerRef.current, surname, MAX_NAME);
+    lastAiFamilyNameRef.current = surname;
+    setAiGeneratedNames(names);
+  }, []);
 
   const generateNames = useCallback(() => {
     const names: GeneratedName[] = [];
@@ -36,7 +47,12 @@ function App() {
     }
 
     setGeneratedNames(names);
-  }, []);
+    generateAiNames();
+  }, [generateAiNames]);
+
+  useEffect(() => {
+    familyNameRef.current = familyName;
+  }, [familyName]);
 
   useEffect(() => {
     let cancelled = false;
@@ -57,6 +73,13 @@ function App() {
   }, [selectedBook, generateNames]);
 
   useEffect(() => {
+    if (initializing || familyName === lastAiFamilyNameRef.current) return;
+
+    const timer = window.setTimeout(() => generateAiNames(familyName), 220);
+    return () => window.clearTimeout(timer);
+  }, [familyName, generateAiNames, initializing]);
+
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 24);
     };
@@ -69,7 +92,7 @@ function App() {
   useEffect(() => {
     const loadFavoriteStates = async () => {
       const entries = await Promise.all(
-        generatedNames.map(async (name) => {
+        [...generatedNames, ...aiGeneratedNames].map(async (name) => {
           const key = `${familyName}${name.name}`;
           return [key, await isFavorite(name.name, familyName)] as const;
         })
@@ -80,7 +103,7 @@ function App() {
     if (generatedNames.length > 0) {
       loadFavoriteStates();
     }
-  }, [familyName, generatedNames]);
+  }, [aiGeneratedNames, familyName, generatedNames]);
 
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToast({ message, type });
@@ -107,9 +130,9 @@ function App() {
       }
 
       showToast(isFavorited ? '收藏成功' : '已取消收藏');
-    } catch (error: any) {
+    } catch (error: unknown) {
       setFavoriteStates({ ...favoriteStates, [key]: currentState });
-      showToast(error.message || '操作失败，请重试', 'error');
+      showToast(error instanceof Error ? error.message : '操作失败，请重试', 'error');
     }
   };
 
@@ -278,17 +301,69 @@ function App() {
                     Results
                   </p>
                   <h2 className="font-serif text-[1.8rem] font-bold leading-tight sm:text-3xl">
-                    {initializing ? '正在翻阅典籍' : `${generatedNames.length} 个候选名字`}
+                    {initializing
+                      ? '正在翻阅典籍'
+                      : `${generatedNames.length + aiGeneratedNames.length} 个候选名字`}
                   </h2>
                   <p className="mt-2 font-sans text-sm text-[#6D6257]">
-                    翻阅经典，与一个好名字不期而遇。每个名字保留出处和一句原文。
+                    上方展示 AI 综合评分优选，下方保留原有随机逻辑。
                   </p>
                 </div>
                 <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E8F1EA] px-3 py-2 font-sans text-sm text-[#2F765C]">
                   <Sparkles className="h-4 w-4" />
-                  已避开常见忌字
+                  AI 优选 · 随机偶遇
                 </div>
               </div>
+            </div>
+
+            <div className="rounded-lg border border-[#B9D2C4] bg-[#E8F1EA] p-4 shadow-sm shadow-[#2F765C]/5 sm:p-5">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#2F765C]">
+                    AI Selection
+                  </p>
+                  <h3 className="font-serif text-2xl font-bold text-[#224E3E]">AI 优选</h3>
+                  <p className="mt-1 font-sans text-sm leading-6 text-[#4B675D]">
+                    允许从同一句中跨分句、跨任意距离取字，再结合字义、音韵、谐音、常用度与字形评分。
+                  </p>
+                </div>
+                <span className="w-fit rounded-full bg-white/75 px-3 py-1.5 font-sans text-xs font-semibold text-[#2F765C]">
+                  {initializing ? '评分中' : `${aiGeneratedNames.length} 个 AI 候选`}
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {aiGeneratedNames.map((name, index) => {
+                const key = `${familyName}${name.name}`;
+                return (
+                  <NameCard
+                    key={`ai-${name.name}-${index}`}
+                    data={name}
+                    familyName={familyName}
+                    onFavorite={() => handleFavorite(name)}
+                    isFavorited={favoriteStates[key] || false}
+                  />
+                );
+              })}
+              {initializing && aiGeneratedNames.length === 0 && (
+                Array.from({ length: 6 }).map((_, index) => (
+                  <div
+                    key={`ai-loading-${index}`}
+                    className="h-[320px] animate-pulse rounded-lg border border-[#B9D2C4] bg-[#E8F1EA]/60"
+                  />
+                ))
+              )}
+            </div>
+
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#8D5A4F]">
+                  Random
+                </p>
+                <h3 className="font-serif text-2xl font-bold text-[#28231D]">随机偶遇</h3>
+              </div>
+              <p className="font-sans text-xs text-[#6D6257]">保留原来的抽篇、抽句、随机取字逻辑</p>
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -321,15 +396,17 @@ function App() {
                     Results
                   </p>
                   <h2 className="font-serif text-[1.8rem] font-bold leading-tight">
-                    {initializing ? '正在翻阅典籍' : `${generatedNames.length} 个候选名字`}
+                    {initializing
+                      ? '正在翻阅典籍'
+                      : `${generatedNames.length + aiGeneratedNames.length} 个候选名字`}
                   </h2>
                   <p className="mt-2 font-sans text-sm text-[#6D6257]">
-                    每个名字保留出处和一句原文，适合慢慢比较。
+                    先看 6 个带评分的 AI 优选，再看 6 个随机偶遇。
                   </p>
                 </div>
                 <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E8F1EA] px-3 py-2 font-sans text-sm text-[#2F765C]">
                   <Sparkles className="h-4 w-4" />
-                  已避开常见忌字
+                  AI 候选已综合评分
                 </div>
               </div>
             </div>

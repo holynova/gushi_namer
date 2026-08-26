@@ -7,14 +7,17 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "verify:ai": "esbuild scripts/verify-ai-selector.ts --bundle --platform=node --format=esm --outfile=node_modules/.tmp/verify-ai-selector.mjs && node node_modules/.tmp/verify-ai-selector.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.90.1",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
+    "cnchar": "3.2.6",
     "html-to-image": "^1.11.13",
     "lucide-react": "^0.554.0",
+    "pinyin-pro": "3.29.3",
     "qrcode.react": "^4.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
@@ -27,6 +30,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.22",
+    "esbuild": "0.25.12",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",

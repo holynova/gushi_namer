@@ -92,6 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (context === undefined) {
@@ -101,6 +102,7 @@ export const useAuth = () => {
 }
 
 // 错误消息本地化
+// eslint-disable-next-line react-refresh/only-export-components
 export const getAuthErrorMessage = (error: AuthError): string => {
   switch (error.message) {
     case 'Invalid login credentials':

@@ -19,7 +19,18 @@ export const NameCard: React.FC<NameCardProps> = ({
   onFavorite,
   isFavorited = false,
 }) => {
-  const { name, sentence, book, title, author, dynasty } = data;
+  const {
+    name,
+    sentence,
+    book,
+    title,
+    author,
+    dynasty,
+    score,
+    scoreReasons = [],
+    pronunciation,
+    characterPositions,
+  } = data;
   const [isAnimating, setIsAnimating] = useState(false);
   const [loading, setLoading] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
@@ -29,6 +40,10 @@ export const NameCard: React.FC<NameCardProps> = ({
 
   const fullName = `${familyName}${name}`;
   const source = `${dynasty ? `${dynasty} · ` : ''}${author || '佚名'} · ${title}`;
+  const highlightedPositions = useMemo(
+    () => new Set(characterPositions ?? []),
+    [characterPositions]
+  );
 
   const shareText = useMemo(
     () => `我在「古诗文起名」遇到了名字：${fullName}\n\n「${sentence}」\n${source}\n\n${PROJECT_URL}`,
@@ -82,8 +97,10 @@ export const NameCard: React.FC<NameCardProps> = ({
 
     return (
       <span>
-        {sentence.split('').map((char, i) => {
-          const isNameChar = chars.includes(char);
+        {Array.from(sentence).map((char, i) => {
+          const isNameChar = characterPositions
+            ? highlightedPositions.has(i)
+            : chars.includes(char);
           return (
             <span
               key={i}
@@ -103,8 +120,10 @@ export const NameCard: React.FC<NameCardProps> = ({
     return (
       <>
         「
-        {sentence.split('').map((char, index) => {
-          const isNameChar = chars.includes(char);
+        {Array.from(sentence).map((char, index) => {
+          const isNameChar = characterPositions
+            ? highlightedPositions.has(index)
+            : chars.includes(char);
           return (
             <span
               key={index}
@@ -156,9 +175,21 @@ export const NameCard: React.FC<NameCardProps> = ({
           <h3 className="mb-2 font-serif text-[2.5rem] font-bold leading-tight text-[#28231D] transition-colors md:text-4xl">
             {fullName}
           </h3>
+          {typeof score === 'number' && (
+            <div className="mb-2 inline-flex items-baseline gap-1 rounded-full bg-[#E8F1EA] px-3 py-1 font-sans text-xs font-semibold text-[#2F765C]">
+              AI 评分
+              <span className="text-base font-bold">{score}</span>
+              <span className="font-normal text-[#587367]">/ 100</span>
+            </div>
+          )}
           <p className="font-sans text-sm text-[#6D6257]">
             {source}
           </p>
+          {pronunciation && (
+            <p className="mt-1 font-sans text-xs tracking-wide text-[#2F765C]">
+              {pronunciation}
+            </p>
+          )}
         </div>
 
         <div className="space-y-4">
@@ -166,7 +197,20 @@ export const NameCard: React.FC<NameCardProps> = ({
             {highlightSentence()}
           </blockquote>
 
-          <div className="flex flex-wrap gap-2 border-t border-[#E2D5C2] pt-4">
+          {scoreReasons.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 border-t border-[#E2D5C2] pt-4">
+              {scoreReasons.slice(0, 3).map((reason) => (
+                <span
+                  key={reason}
+                  className="rounded-full bg-[#E8F1EA] px-2.5 py-1 font-sans text-xs font-medium text-[#2F765C]"
+                >
+                  {reason}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className={`${scoreReasons.length > 0 ? '' : 'border-t border-[#E2D5C2] pt-4'} flex flex-wrap gap-2`}>
             <span className="rounded-full bg-[#F7F0E4] px-3 py-1 font-sans text-xs font-medium text-[#5D5145]">
               《{title}》
             </span>
@@ -207,6 +251,11 @@ export const NameCard: React.FC<NameCardProps> = ({
                 <h3 className="mt-5 font-serif text-5xl font-bold leading-tight text-[#28231D]">
                   {fullName}
                 </h3>
+                {typeof score === 'number' && (
+                  <p className="mt-2 font-sans text-sm font-semibold text-[#2F765C]">
+                    AI 评分 {score} / 100
+                  </p>
+                )}
                 <blockquote className="mx-auto mt-5 max-w-[280px] border-y border-[#D7C7AF] py-4 font-serif text-xl leading-9 text-[#2F765C]">
                   {renderShareSentence()}
                 </blockquote>
