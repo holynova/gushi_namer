@@ -305,9 +305,6 @@ function App() {
                       ? '正在翻阅典籍'
                       : `${generatedNames.length + aiGeneratedNames.length} 个候选名字`}
                   </h2>
-                  <p className="mt-2 font-sans text-sm text-[#6D6257]">
-                    上方展示 AI 综合评分优选，下方保留原有随机逻辑。
-                  </p>
                 </div>
                 <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E8F1EA] px-3 py-2 font-sans text-sm text-[#2F765C]">
                   <Sparkles className="h-4 w-4" />
@@ -323,9 +320,6 @@ function App() {
                     AI Selection
                   </p>
                   <h3 className="font-serif text-2xl font-bold text-[#224E3E]">AI 优选</h3>
-                  <p className="mt-1 font-sans text-sm leading-6 text-[#4B675D]">
-                    允许从同一句中跨分句、跨任意距离取字，再结合字义、音韵、谐音、常用度与字形评分。
-                  </p>
                 </div>
                 <span className="w-fit rounded-full bg-white/75 px-3 py-1.5 font-sans text-xs font-semibold text-[#2F765C]">
                   {initializing ? '评分中' : `${aiGeneratedNames.length} 个 AI 候选`}
@@ -363,7 +357,6 @@ function App() {
                 </p>
                 <h3 className="font-serif text-2xl font-bold text-[#28231D]">随机偶遇</h3>
               </div>
-              <p className="font-sans text-xs text-[#6D6257]">保留原来的抽篇、抽句、随机取字逻辑</p>
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -400,13 +393,6 @@ function App() {
                       ? '正在翻阅典籍'
                       : `${generatedNames.length + aiGeneratedNames.length} 个候选名字`}
                   </h2>
-                  <p className="mt-2 font-sans text-sm text-[#6D6257]">
-                    先看 6 个带评分的 AI 优选，再看 6 个随机偶遇。
-                  </p>
-                </div>
-                <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E8F1EA] px-3 py-2 font-sans text-sm text-[#2F765C]">
-                  <Sparkles className="h-4 w-4" />
-                  AI 候选已综合评分
                 </div>
               </div>
             </div>
