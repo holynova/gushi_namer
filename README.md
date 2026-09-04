@@ -7,6 +7,7 @@
 ## Demo
 
 - [https://holynova.github.io/gushi_namer/](https://holynova.github.io/gushi_namer/)
+- [https://gushi-namer.xiaosang.cc/](https://gushi-namer.xiaosang.cc/)
 - [http://xiaosang.net/gushi_namer/](http://xiaosang.net/gushi_namer/)
 
 ## 截图预览
@@ -70,4 +71,3 @@ pnpm build
 [![古诗文起名 - 翻阅经典，遇见好名字 Demo 分享卡片：包含项目介绍与二维码](assets/demo-share-card.png)](https://holynova.github.io/gushi_namer/)
 
 移动端友好的在线 Demo：Chinese baby name generator from classical poems and ancient texts 扫码或点击卡片打开：<https://holynova.github.io/gushi_namer/>
-

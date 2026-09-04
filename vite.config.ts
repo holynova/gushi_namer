@@ -5,5 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ mode }) => ({
   plugins: [react()],
   base: mode === 'pages' ? '/gushi_namer/' : '/',
-  build: { outDir: process.env.BUILD_OUTPUT_DIR ?? 'dist' },
+  build: {
+    outDir: process.env.BUILD_OUTPUT_DIR ?? 'dist',
+    emptyOutDir: mode !== 'pages',
+  },
 }))
