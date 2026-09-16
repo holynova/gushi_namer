@@ -2,6 +2,11 @@
 
 翻阅经典，与一个好名字不期而遇。
 
+<p align="center">
+  <img src="assets/readme/hero.svg" width="100%" alt="古诗文起名: 翻阅经典，与一个好名字不期而遇。">
+</p>
+
+
 古诗文起名从《诗经》《楚辞》、唐诗、宋词等典籍中取字组合名字，并保留诗句出处。v3.0 版本重新设计了桌面端与移动端体验，支持本地收藏、JSON 导入导出和名字分享卡片。
 
 ## Demo
@@ -76,4 +81,3 @@ pnpm build
 [![古诗文起名 - 翻阅经典，遇见好名字 Demo 分享卡片：包含项目介绍与二维码](assets/demo-share-card.png)](https://holynova.github.io/gushi_namer/)
 
 移动端友好的在线 Demo：Chinese baby name generator from classical poems and ancient texts 扫码或点击卡片打开：<https://holynova.github.io/gushi_namer/>
-
