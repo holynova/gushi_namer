@@ -23,6 +23,12 @@
 | --- | --- | --- |
 | ![移动端起名首页](docs/screenshots/mobile-home.png) | ![移动端收藏页](docs/screenshots/mobile-favorites.png) | ![移动端分享卡片](docs/screenshots/mobile-share.png) |
 
+## 第一次起名
+
+1. 打开 Demo，从典籍列表中选择一个来源，查看生成的候选名字与原诗句。
+2. 收藏喜欢的名字，再到收藏页查看或生成分享卡片。
+3. 需要换设备时，先导出 JSON，再在目标浏览器导入。收藏保存在当前浏览器，清理站点数据前请先备份。
+
 ## 主要功能
 
 - 启动后自动生成 6 个候选名字，切换典籍后立即刷新。
@@ -46,7 +52,7 @@
 ```bash
 git clone https://github.com/holynova/gushi_namer.git
 cd gushi_namer
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
