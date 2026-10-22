@@ -14,7 +14,7 @@
 
 让“泠、寒”从诗句里走出来，成为「林泠寒」。40 秒演示选典籍、输入姓氏、查看出处、收藏与分享，配以古琴实录。
 
-[![观看《诗里有你》Demo 视频](assets/demo-video-poster.jpg)](assets/demo-video.mp4)
+https://github.com/user-attachments/assets/2e13bbae-60b0-4ce5-a060-2801a849ae01
 
 [▶ 查看或下载视频（MP4 · 1080p · 40 秒）](assets/demo-video.mp4)
 
@@ -76,7 +76,9 @@ pnpm build
 
 ## Demo 分享卡片
 
-[![古诗文起名 - 翻阅经典，遇见好名字 Demo 分享卡片：包含项目介绍与二维码](assets/demo-share-card.png)](https://holynova.github.io/gushi_namer/)
+<a href="https://gushi-namer.xiaosang.cc/">
+  <img src="assets/demo-share-card.png" alt="古诗文起名 Demo 分享卡片：包含项目介绍与二维码" width="360">
+</a>
 
 移动端友好的在线 Demo：Chinese baby name generator from classical poems and ancient texts 扫码或点击卡片打开：<https://holynova.github.io/gushi_namer/>
 
