@@ -6,8 +6,17 @@
 
 ## Demo
 
+- [在线体验：古诗文起名](https://gushi-namer.xiaosang.cc/)
 - [https://holynova.github.io/gushi_namer/](https://holynova.github.io/gushi_namer/)
 - [http://xiaosang.net/gushi_namer/](http://xiaosang.net/gushi_namer/)
+
+### Demo 视频 · 诗里有你
+
+让“泠、寒”从诗句里走出来，成为「林泠寒」。40 秒演示选典籍、输入姓氏、查看出处、收藏与分享，配以古琴实录。
+
+[![观看《诗里有你》Demo 视频](assets/demo-video-poster.jpg)](assets/demo-video.mp4)
+
+[▶ 查看或下载视频（MP4 · 1080p · 40 秒）](assets/demo-video.mp4)
 
 ## 截图预览
 
