@@ -80,5 +80,5 @@ pnpm build
   <img src="assets/demo-share-card.png" alt="古诗文起名 Demo 分享卡片：包含项目介绍与二维码" width="360">
 </a>
 
-移动端友好的在线 Demo：Chinese baby name generator from classical poems and ancient texts 扫码或点击卡片打开：<https://holynova.github.io/gushi_namer/>
+从古诗文中取字，为每个名字保留原文与出处。扫码或点击卡片，试试你的名字：<https://gushi-namer.xiaosang.cc/>
 
