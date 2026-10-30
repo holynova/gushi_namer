@@ -29,7 +29,7 @@ function App() {
 
     while (names.length < MAX_NAME && attempts < MAX_ATTEMPTS) {
       const name = namerRef.current.genName();
-      if (name) {
+      if (name && !names.some((n) => n.name === name.name)) {
         names.push(name);
       }
       attempts++;
