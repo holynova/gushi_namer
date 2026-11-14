@@ -35,6 +35,18 @@ const normalizeFavorite = (item: Partial<FavoriteItem>): FavoriteItem | null => 
     author: item.author || '佚名',
     book: item.book,
     dynasty: item.dynasty || '',
+    score: typeof item.score === 'number' ? item.score : undefined,
+    scoreBreakdown: item.scoreBreakdown,
+    scoreReasons: Array.isArray(item.scoreReasons)
+      ? item.scoreReasons.filter((reason): reason is string => typeof reason === 'string')
+      : undefined,
+    pronunciation: typeof item.pronunciation === 'string' ? item.pronunciation : undefined,
+    characterPositions: Array.isArray(item.characterPositions)
+      ? item.characterPositions.filter(
+          (position): position is number => typeof position === 'number'
+        )
+      : undefined,
+    generationMode: item.generationMode === 'ai' ? 'ai' : undefined,
     savedAt,
   }
 }

@@ -16,6 +16,18 @@ export interface GeneratedName {
   author: string;
   book: string;
   dynasty: string;
+  score?: number;
+  scoreBreakdown?: {
+    meaning: number;
+    source: number;
+    pronunciation: number;
+    readability: number;
+    visual: number;
+  };
+  scoreReasons?: string[];
+  pronunciation?: string;
+  characterPositions?: number[];
+  generationMode?: 'ai';
 }
 
 export class Namer {
@@ -40,7 +52,7 @@ export class Namer {
   }
 
   formatStr(str: string): string {
-    let res = str.replace(/(\s|　|”|“){1,}|<br>|<p>|<\/p>/g, '');
+    let res = str.replace(/(\s|\u3000|”|“){1,}|<br>|<p>|<\/p>/g, '');
     res = res.replace(/\(.+\)/g, '');
     return res;
   }
@@ -58,7 +70,7 @@ export class Namer {
   }
 
   cleanPunctuation(str: string): string {
-    const puncReg = /[<>《》！*\(\^\)\$%~!@#…&%￥—\+=、。，？；‘’“”：·`]/g;
+    const puncReg = /[<>《》！*(^)$%~!@#…&%￥—+=、。，？；‘’“”：·`]/g;
     return str.replace(puncReg, '');
   }
 

@@ -86,8 +86,8 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ onBack }) => {
       const result = await importFavorites(JSON.parse(text));
       await loadFavorites();
       setMessage(`导入完成：新增 ${result.imported} 个收藏，共 ${result.total} 个`);
-    } catch (err: any) {
-      setError(err.message || '导入失败，请检查 JSON 文件格式');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : '导入失败，请检查 JSON 文件格式');
     } finally {
       event.target.value = '';
     }
