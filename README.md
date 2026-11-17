@@ -1,56 +1,45 @@
-# 古诗文起名
+<p align="center">
+  <img src="./assets/readme/hero.svg" width="100%" alt="古诗文起名 Gushi Namer — 从经典中取字：诗句「青青子衿，悠悠我心」取「子衿」二字，生成名字「林子衿」">
+</p>
 
-翻阅经典，与一个好名字不期而遇。
+<p align="center">
+  <a href="https://gushi-namer.xiaosang.cc/">▶ 在线体验 Try Online</a>
+  ·
+  <a href="https://holynova.github.io/gushi_namer/">GitHub Pages 镜像</a>
+  ·
+  <a href="https://github.com/holynova/gushi_namer">GitHub 仓库</a>
+</p>
 
-古诗文起名从《诗经》《楚辞》、唐诗、宋词等典籍中取字组合名字，并保留诗句出处。v3.0 版本重新设计了桌面端与移动端体验，支持本地收藏、JSON 导入导出和名字分享卡片。
+古诗文起名从《诗经》《楚辞》、唐诗、宋词等 7 部典籍的 1,394 篇诗文中取字组合名字，并为每个名字保留原诗句与出处。选典籍、输入姓氏，一次生成 6 个候选名字；喜欢的可以收藏、导出，还能生成带诗句与二维码的分享卡片。GitHub 标星 2,200+。
 
-## Demo
+Gushi Namer generates Chinese baby names from 1,394 classical poems across 7 collections — the Book of Songs, Songs of Chu, Tang poetry, Song lyrics, and more. Pick a collection, enter a family name, and get 6 candidate names, each with its original verse and source. Save favorites locally, export them as JSON, or share a name card with verse and QR code. 2,200+ GitHub stars.
 
-- [在线体验：古诗文起名](https://gushi-namer.xiaosang.cc/)
-- [https://holynova.github.io/gushi_namer/](https://holynova.github.io/gushi_namer/)
-- [http://xiaosang.net/gushi_namer/](http://xiaosang.net/gushi_namer/)
+## 截图 / Screenshots
 
-### Demo 视频 · 诗里有你
+<p align="center">
+  <img src="./assets/readme/screenshot-desktop.png" width="760" alt="桌面端：左侧选典籍与姓氏，右侧 6 个候选名字卡片，每张带原诗句与出处">
+</p>
 
-让“泠、寒”从诗句里走出来，成为「林泠寒」。40 秒演示选典籍、输入姓氏、查看出处、收藏与分享，配以古琴实录。
+<p align="center">
+  <img src="./assets/readme/screenshot-mobile.png" width="300" alt="移动端：同样的选典籍、输姓氏、看候选名字流程，单列排布">
+</p>
 
-https://github.com/user-attachments/assets/2e13bbae-60b0-4ce5-a060-2801a849ae01
+## 怎么用 / How It Works
 
-[▶ 查看或下载视频（MP4 · 1080p · 40 秒）](assets/demo-video.mp4)
+1. **选典籍**：诗经（306 篇）、楚辞（17 篇）、唐诗（320 篇）、宋词（222 篇）、乐府诗集（203 篇）、古诗三百首（279 篇）、著名辞赋（47 篇）。
+2. **输入姓氏**，一次生成 6 个候选名字；切换典籍后立即刷新。
+3. **每个名字都有出处**：点开看原诗句、篇名、作者与朝代，取字位置高亮标出。
+4. **忌字过滤**：自动避开 68 个常见忌讳字（如凶、丑、病、死），生成的名字先过一遍筛。
 
-## 截图预览
+## 功能 / Features
 
-### 桌面端
+- **收藏**：点爱心收藏，存在当前浏览器（localStorage），无需登录。
+- **导入导出**：收藏记录可导出 JSON 备份，也可导入恢复，换设备不丢。
+- **分享卡片**：一键生成名字卡片图片，含原诗句、出处与项目二维码，可直接发给家人看。
+- **移动端适配**：滚动时头部自动收起，保留换一组、收藏、关于三个快捷入口。
+- **演示视频**：[40 秒演示（MP4 · 1080p）](assets/demo-video.mp4)，从选典籍到收藏与分享，配古琴实录。
 
-| 起名首页 | 收藏与 JSON 导入导出 | 分享卡片 |
-| --- | --- | --- |
-| ![桌面端起名首页](docs/screenshots/desktop-home.png) | ![桌面端收藏页](docs/screenshots/desktop-favorites.png) | ![桌面端分享卡片](docs/screenshots/desktop-share.png) |
-
-### 移动端
-
-| 起名首页 | 收藏与 JSON 导入导出 | 分享卡片 |
-| --- | --- | --- |
-| ![移动端起名首页](docs/screenshots/mobile-home.png) | ![移动端收藏页](docs/screenshots/mobile-favorites.png) | ![移动端分享卡片](docs/screenshots/mobile-share.png) |
-
-## 主要功能
-
-- 启动后自动生成 6 个候选名字，切换典籍后立即刷新。
-- 收藏数据保存在当前浏览器，无需登录。
-- 支持收藏记录 JSON 导出和导入，方便备份迁移。
-- 支持生成名字分享卡片，包含原诗句、出处、项目链接和二维码。
-- 移动端滚动时头部自动收起，保留换一组、收藏、关于三个快捷入口。
-
-## 支持的典籍
-
-1. 诗经
-2. 楚辞
-3. 唐诗
-4. 宋词
-5. 乐府诗集
-6. 古诗三百首
-7. 著名辞赋
-
-## 本地运行
+## 本地运行 / Run Locally
 
 ```bash
 git clone https://github.com/holynova/gushi_namer.git
@@ -65,20 +54,30 @@ pnpm dev
 pnpm build
 ```
 
-## 开源
+## 技术 / Tech
 
-- [GitHub 仓库](https://github.com/holynova/gushi_namer)
-- 作者：[holynova](https://github.com/holynova)
+- React 19 + TypeScript + Vite 7，Tailwind CSS；`_legacy/` 是旧版 webpack 实现，仅作存档。
+- 起名逻辑在 `src/utils/namer.ts`：随机取一篇诗文、切分诗句、清洗标点与忌讳字、从句中按原序取两字成名。
+- 诗文数据在 `public/json/`（7 个 JSON，1,394 篇），页面加载时按需取用；诗歌数据来源于网络。
+- 分享卡片用 html-to-image 转图片、qrcode.react 生成二维码。
+
+```
+src/App.tsx               主界面：选典籍 / 输姓氏 / 6 个候选名字 / 收藏页
+src/components/           典籍选择、姓氏输入、名字卡片、收藏页、关于页
+src/utils/namer.ts        起名核心：取篇 → 切句 → 清洗 → 取两字
+src/utils/favorites.ts   收藏：localStorage 存取 + JSON 导入导出
+public/json/              7 部典籍数据（1,394 篇）
+```
 
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=holynova/gushi_namer&type=Date)](https://www.star-history.com/#holynova/gushi_namer&Date)
 
-## Demo 分享卡片
+## English
 
-<a href="https://gushi-namer.xiaosang.cc/">
-  <img src="assets/demo-share-card.png" alt="古诗文起名 Demo 分享卡片：包含项目介绍与二维码" width="360">
-</a>
+**Gushi Namer** turns classical Chinese poetry into baby names. It draws from 1,394 poems in 7 collections — Shijing (306), Chuci (17), Tang poetry (320), Song lyrics (222), Yuefu (203), 300 Tang poems (279), and famous fu prose (47) — and composes a two-character given name from a single verse, keeping the original line and its source attached to every name.
 
-从古诗文中取字，为每个名字保留原文与出处。扫码或点击卡片，试试你的名字：<https://gushi-namer.xiaosang.cc/>
-
+- **How it works**: choose a collection, enter a family name, and get 6 candidates at once. Switching collections refreshes immediately. A built-in filter removes 68 inauspicious characters before a name is shown.
+- **Keep & share**: favorites live in the browser (localStorage, no login), export/import as JSON, and any name can be turned into a shareable card image with its verse, source, and a QR code.
+- **Run it**: `pnpm install && pnpm dev` (build: `pnpm build`).
+- **Tech**: React 19 + TypeScript + Vite 7 + Tailwind CSS. The naming engine is `src/utils/namer.ts`; poem data is 7 JSON files under `public/json/`.
