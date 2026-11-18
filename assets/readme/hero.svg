@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1200" height="360" viewBox="0 0 1200 360"
+     role="img" aria-labelledby="title desc">
+  <title id="title">古诗文起名 Gushi Namer — 从经典中取字</title>
+  <desc id="desc">暖纸底编辑风标题：古诗文起名，副标题翻阅经典，与一个好名字不期而遇；右侧是一张名字卡片，诗句「青青子衿，悠悠我心」中「子衿」二字被标出，生成名字「林子衿」，出处《诗经·子衿》。</desc>
+
+  <rect width="1200" height="360" rx="26" fill="#f7f0e4"/>
+
+  <g id="title-block" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="56" y="62" font-size="19" letter-spacing="3" fill="#6f6152">从经典中取字 · NAMES FROM CLASSICAL POETRY</text>
+    <text x="56" y="128" font-size="62" font-weight="700" fill="#2f765c">古诗文起名</text>
+    <text x="56" y="168" font-size="23" fill="#3d332a">GUSHI NAMER — 翻阅经典，与一个好名字不期而遇</text>
+    <text x="56" y="204" font-size="19" fill="#6d6257">取字成名，每个名字都保留原诗句与出处。</text>
+    <g id="chips" font-size="18" fill="#3d332a" text-anchor="middle">
+      <g><rect x="56" y="238" width="126" height="36" rx="18" fill="#ffffff" stroke="#d7c7af" stroke-width="1.5"/><text x="119" y="262">7 部典籍</text></g>
+      <g><rect x="194" y="238" width="150" height="36" rx="18" fill="#ffffff" stroke="#d7c7af" stroke-width="1.5"/><text x="269" y="262">1,394 篇诗文</text></g>
+      <g><rect x="356" y="238" width="150" height="36" rx="18" fill="#ffffff" stroke="#d7c7af" stroke-width="1.5"/><text x="431" y="262">2,200+ Stars</text></g>
+      <g><rect x="518" y="238" width="126" height="36" rx="18" fill="#ffffff" stroke="#d7c7af" stroke-width="1.5"/><text x="581" y="262">v3.0.2</text></g>
+    </g>
+  </g>
+
+  <g id="name-card" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <rect x="800" y="48" width="340" height="264" rx="16" fill="#ffffff" stroke="#d7c7af" stroke-width="1.5"/>
+    <text x="828" y="84" font-size="17" letter-spacing="2" fill="#6f6152">诗经 · 郑风 · 子衿</text>
+    <g font-size="24" fill="#3d332a">
+      <text x="828" y="124">青青</text>
+      <text x="880" y="124" font-weight="700" fill="#2f765c">子衿</text>
+      <text x="932" y="124">，悠悠我心。</text>
+    </g>
+    <line x1="828" y1="140" x2="1112" y2="140" stroke="#e8dcc8" stroke-width="1"/>
+    <g transform="translate(970 168)">
+      <line x1="0" y1="0" x2="0" y2="18" stroke="#a84a3a" stroke-width="2.5"/>
+      <polygon points="0,26 -7,12 7,12" fill="#a84a3a"/>
+    </g>
+    <text x="970" y="232" font-size="52" font-weight="700" fill="#2f765c" text-anchor="middle" font-family="'Songti SC', 'STSong', serif">林子衿</text>
+    <text x="970" y="268" font-size="18" fill="#6d6257" text-anchor="middle">春秋 · 佚名《子衿》</text>
+    <g transform="translate(1090 268)">
+      <rect x="0" y="0" width="34" height="34" rx="6" fill="#a84a3a"/>
+      <text x="17" y="25" font-size="20" fill="#ffffff" text-anchor="middle">诗</text>
+    </g>
+  </g>
+</svg>
